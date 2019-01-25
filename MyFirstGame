@@ -18,7 +18,7 @@ int finalfight(void);
 
 int main()
 {
-									//定义变量 
+				//定义变量 
 char choice[3];  
 char status[3];  
 int count; // for numberguess
@@ -26,11 +26,13 @@ int dragonthing = 3;//0-death ;1-win ; 2 -escape; 3-never met dragon;
 int internalofdragon=0; 
 int markformath = 0;
 int seventeen = 0 ;
-int sing = 0;			//1 for 两只老虎 ;2 for 小星星 
+int sing = 0;	//1 for 两只老虎 ;2 for 小星星 
 int getmoney;
 int final;
-								//角色基本信息 
-character player1;	
+int neighbor=0;
+character player1;
+				//角色基本信息 
+	
 printf("\n创建角色:\n\n"); 
 printf("请输入姓名：");
 scanf("%s",&player1.name);
@@ -41,27 +43,27 @@ fflush(stdin);
 printf("请输入年龄："); 
 scanf("%d",&player1.age);
 fflush(stdin);
-														//主线选择 
+			//主线选择 
 printf("你的身份是？ A普通大学生 B普通公司职员 C法师 \n");
 scanf("%s",&status[0]); 
 printf("\n");	
 fflush(stdin);
 
-													//开始 
+			//开始 
 printf("请确保键盘大写锁定\n   按回车键开始游戏\n      have fun\n");
 scanf("start");
 
 									
-if (status[0]=='A'){					   				//学生主线 
+if (status[0]=='A'){		//学生主线 
 	start:
 	printf("阳光明媚的一天开始了\n你拿着100块钱上学去了(按回车键继续)\n");	
 	player1.money =100;					
 	 	
-	fflush(stdin);			//这是为了点回车才继续，防止一直走到下个选项一下出太多字很长 
+	fflush(stdin);	//这是为了点回车才继续，防止一直走到下个选项一下出太多字很长 
 	scanf("continue");
 	fflush(stdin);
 	
-	printf("你的邻居热情地打招呼：早啊%s!\n",player1.name);		//事件 1 邻居问好 
+	printf("你的邻居热情地打招呼：早啊%s!\n",player1.name);	//事件 1 邻居问好 
 	printf("你选择： A向他问好 B无视他 C给他唱《两只老虎》\n");
 	fflush(stdin);
 	scanf("%s",&choice[0]);
@@ -71,6 +73,8 @@ if (status[0]=='A'){					   				//学生主线
 		printf("你向他摆手道“早上好邻居”。问过好后你很高兴。"); 
 	}else if (choice[0]=='B'){
 		printf("你没有理会他，自顾自走了过去。"); 
+		neighbor=1;
+		
 	}else if (choice[0]=='C'){
 		printf("你唱起《两只老虎》，邻居哈哈大笑，还觉得你是个傻逼"); 
 		sing = 1;
@@ -83,13 +87,13 @@ if (status[0]=='A'){					   				//学生主线
 	fflush(stdin);
 	
 	printf("\n\n") ;
-																		//事件2 高数课 
+						//事件2 高数课 
 	printf("高数课上，老师问：“谁能来证明一下拉格朗日中值定理？”\n此时你\n");
 	printf("A胸有成竹地举起了手 B根本不懂老师在说什么 C在玩手机\n");
 	scanf("%s",&choice[0]);
 	fflush(stdin);
 	
-	if(choice[0]=='A'){											//2.1老师出错	 
+	if(choice[0]=='A'){			//2.1老师出错	 
 		printf("你是全班唯一一个举手的。老师说：“算了，我自己来吧”\n");
 		
 			fflush(stdin);
@@ -131,7 +135,7 @@ if (status[0]=='A'){					   				//学生主线
 	scanf("continue");
 	fflush(stdin);
 	printf("\n");
-																//2 高数课事件完 ,3 猜数字事件
+					//2 高数课事件完 ,3 猜数字事件
 	printf("课间，一个油腻中年男子走向你请你和他玩猜数字，还说你赢了就给你100块钱。\n");
 	printf("你选择： A当然要玩  B扔给他100让他离你远点  C无视掉他  D对他唱唱《小星星》\n");		
 	scanf("%s",&choice[0]);
@@ -162,7 +166,7 @@ if (status[0]=='A'){					   				//学生主线
 	scanf("continue");
 	fflush(stdin);
 	printf("\n");
-														//3 猜数字事件完  4龙事件 
+					//3 猜数字事件完  4龙事件 
 	printf("中午，你在走路，\n你突然发现面前竟然多了条龙！\n");
 	printf("你选择  A揍它  B礼貌地让它别挡道 \n");
 	fflush(stdin);
@@ -185,7 +189,7 @@ if (status[0]=='A'){					   				//学生主线
 			internalofdragon=1;	 
 		}
 	}
-															//4龙事件完 
+				//4龙事件完 
 	fflush(stdin);
 	scanf("continue");
 	fflush(stdin);
@@ -236,7 +240,7 @@ if (status[0]=='A'){					   				//学生主线
 		fflush(stdin);
 			scanf("continue");
 			fflush(stdin);	
-															//邂逅事件 for male
+				//邂逅事件 for male
 	if(player1.gender[0]=='M'){
 		printf("你走出餐厅，外面下雨了\n");
 		fflush(stdin);
@@ -300,7 +304,7 @@ if (status[0]=='A'){					   				//学生主线
 		}
 		 
 	}						
-														//邂逅事件 for female
+			//邂逅事件 for female
 	else if (player1.gender[0]=='F'){
 			printf("你走出餐厅，阳光暖暖的\n");
 		fflush(stdin);
@@ -365,7 +369,7 @@ if (status[0]=='A'){					   				//学生主线
 	if(seventeen==1){
 	
 	printf("与seventeen从花坛出来，你们各回各家\n");
-				fflush(stdin);									//money changed
+				fflush(stdin);		//money changed
 			scanf("continue");
 			fflush(stdin);
 			}
@@ -400,7 +404,7 @@ if (status[0]=='A'){					   				//学生主线
 		fflush(stdin);
 			scanf("continue");
 			fflush(stdin);
-																	//	about singing
+				//	about singing come to end 
 	if(sing==1){
 		printf("出了商店，年轻人走向你\n");
 		printf("他说他听到你唱《两只老虎》，很不错，想签约你\n");
@@ -448,7 +452,7 @@ if (status[0]=='A'){					   				//学生主线
 			fflush(stdin);
 			scanf("continue");
 			fflush(stdin);
-														// money thing
+				// money thing
 	getmoney=rand()%60+150;	
 	printf("晚饭前你在外面散步，看到地上有个钱包\n");
 	printf("里面一共%d元\n",getmoney);
@@ -468,6 +472,47 @@ if (status[0]=='A'){					   				//学生主线
 			fflush(stdin);
 			scanf("continue");
 			fflush(stdin);
+	if(seventeen==0){	
+		printf("你走着走着，迎面撞上一个穿法师长袍的人\n") ;
+		printf("他见到你后，手中突然出现一个火球，面色不善\n");
+			fflush(stdin);
+			scanf("continue");
+			fflush(stdin);
+		printf("你暗骂一声，妈的还真会搓火球\n");
+		printf("不知为何他明显对你很有敌意\n");
+		printf("你选择 A话不多说，揍他   B与他交涉  \n");
+		
+		fflush(stdin);
+		scanf("%s",&choice[0]);
+		fflush(stdin);
+			//被烧死结局 
+		if(choice[0]=='A'){
+			printf("在你向他挥起拳头一秒后，你被烧的灰都不剩 \n");
+			printf("在这短暂的一秒内，你唯一想到的就是冰块\n") ;
+				fflush(stdin);
+				scanf("continue");
+				fflush(stdin);
+					goto ending ;
+		} else if (choice[0]=='B')
+		
+		{
+			printf(" 你让他住手，问他为什么要找你麻烦\n");	
+				fflush(stdin);
+				scanf("continue");
+				fflush(stdin);
+			printf("你说你抢占了他的生存空间\n你很不理解\n");
+			printf("他说:你自己去问作者去吧\n");
+				fflush(stdin);
+				scanf("continue");
+				fflush(stdin);
+			printf("然后他抢了你50块钱说要买汽油，就走了\n");
+			   player1.money-=50;
+			   printf("你还剩%d块钱\n",player1.money);
+			   	fflush(stdin);
+				scanf("continue");
+				fflush(stdin);
+		}
+	}
 	if(seventeen==1){
 		
 	printf("第二天，seventeen约你去看电影\n");
@@ -504,7 +549,7 @@ if (status[0]=='A'){					   				//学生主线
 	scanf("%s",&choice[0]);
 	fflush(stdin);
 	
-	if(choice[0]=='A'){											//happy ending
+	if(choice[0]=='A'){			//happy ending
 	
 		printf("你把新闻抛到脑后，\n继续你简单而幸福的生活 \n");
 			fflush(stdin);
@@ -521,6 +566,13 @@ if (status[0]=='A'){					   				//学生主线
 		
 		printf("你选择了这条不知通向哪里的路\n");
 		printf("那天下午，你与家人，与seventeen告别，踏上了这段旅程\n");
+		if(neighbor==1){
+			getmoney = rand()%30+30;
+			player1.money-=getmoney;
+			printf("由于前几天早晨你无视了邻居，他怀恨在心，见到你时抢走了你%d块钱\n",getmoney);
+			printf("你还剩%d\n",player1.money);
+			 
+		}
 			fflush(stdin);
 			scanf("continue");
 			fflush(stdin);
@@ -558,12 +610,18 @@ if (status[0]=='A'){					   				//学生主线
 			} else{
 						printf("你选择了这条不知通向哪里的路\n");
 				printf("那天下午，你与家人朋友告别，踏上了这段旅程\n");
+				if(neighbor==1){
+				getmoney = rand()%30+30;
+				player1.money-=getmoney;
+				printf("由于前几天早晨你无视了邻居，他怀恨在心，见到你时抢走了你%d块钱\n",getmoney);
+				printf("你还剩%d\n",player1.money);
+				}
 					fflush(stdin);
 					scanf("continue");
 					fflush(stdin);
 			}
 		}
-													//dragon、 plateau
+				//dragon、 plateau
 		printf("猎龙队伍的队长告诉你你们要去的地方叫dragon plateau\n");
 		printf("你根本没听说过这地方\n");
 					fflush(stdin);
@@ -574,7 +632,7 @@ if (status[0]=='A'){					   				//学生主线
 					fflush(stdin);
 					scanf("continue");
 					fflush(stdin);
-		if(dragonthing==1){											//internal		 
+		if(dragonthing==1){			//internal	thing
 			printf("当队友们发现你竟然有龙内脏，都很震惊\n");
 			printf("你也很惊讶，他们竟然都没见过龙\n") ;
 				fflush(stdin);
@@ -634,7 +692,7 @@ if (status[0]=='A'){					   				//学生主线
 						scanf("continue");
 						fflush(stdin);
 		printf("你现在有%d块钱\n",player1.money);
-		printf("你觉得你能买得起什么？\nA Nothing B Nothing");
+		printf("你觉得你能买得起什么？\nA Nothing B Nothing\n\n");
 						fflush(stdin);
 				scanf("%s",&choice[0]);
 				fflush(stdin);
@@ -715,9 +773,9 @@ if (status[0]=='A'){					   				//学生主线
 		} 
 			
 		
-					// this is the end												
+			// this is the end												
 } 							
-else if (status[0]=='B'){								//职员主线    不写了 
+else if (status[0]=='B'){		//职员主线    不写了 
 		printf("作者好累啊，不想写职员的故事线了，你去玩学生线吧。\n");
 		printf("A好的     B不行，我今天一定要玩这条线\n")	;
 		fflush(stdin);
@@ -739,7 +797,7 @@ else if (status[0]=='B'){								//职员主线    不写了
 			goto start;
 		}
 	}												
-else if (status[0]=='C'){								//法师主线   也不写了妈蛋 
+else if (status[0]=='C'){		//法师主线   也不写了妈蛋 
 		printf("作者好累啊，不想写法师的故事线了，你去玩学生线吧。\n");
 	printf("A好的     B不行，我今天一定要玩这条线\n")	;
 			fflush(stdin);
@@ -762,7 +820,7 @@ else if (status[0]=='C'){								//法师主线   也不写了妈蛋
 	}
 
 }					
-else {												//主线没选 
+else {			//主线没选 
 	printf("\n关了吧没意思"); 
 }
 ending:
@@ -774,9 +832,9 @@ return 0 ;
 
 
 }
-////////////////////////////////////////////////////////////////main 
+////////////main 
 
-///////////////////////////////////////////////////////////////other functions
+///////////other functions
 int numberguess()
 {
 	srand(time(0));
@@ -799,30 +857,30 @@ int numberguess()
 }
 
 int dragonfight(void){
-	int boc = 10;         // blood of character
-	int bod = 10;        //blood of dragon
+	int boc = 10;    // blood of character
+	int bod = 10;    //blood of dragon
 	int turn = 0;
-	char moc[3] ; 			//move of character
-	int mod =0;       // move of dragon
+	char moc[3] ; 	//move of character
+	int mod =0;     // move of dragon
 	int end = 1;   //1-win ; 0-death ; 2-escape
 	srand(time(0));
 	printf("\n\n---------龙之战-----------\n\n");
 	printf("\n你和龙都有10滴血，掉光就死了\n");
 	printf("龙会干的事有 打你(让你-1血)、使劲打你(让你-3血)和愤怒咆哮(没什么用)\n\n");
 	
-	do {												//每回合内容 
+	do {	//每回合内容 
 	turn++; 
 	printf("第%d回合\n",turn);
-															//玩家动作 
+			//玩家动作 
 	printf("你选择： A拿匕首戳龙(使龙-2血)   B防御(本回合不受伤)   C逃跑(离开战场)\n");
 	fflush(stdin);
 	scanf("%s",&moc[0]);
-	if(moc[0]=='C'){						//只要逃跑就不用进行下面的了 
+	if(moc[0]=='C'){		//只要逃跑就不用进行下面的了 
 		end = 2;		
 		printf("你逃掉了，心有余悸\n"); 
 		break;								
 	}
-																//龙动作 
+				//龙动作 
 	mod = rand()%3;
 	if (mod ==0 ){								
 		printf("龙决定打你一下(-1)\n"); 
@@ -831,7 +889,7 @@ int dragonfight(void){
 	}else {
 		printf("龙愤怒的咆哮了一声\n"); 
 	} 
-														//结果计算 
+			//结果计算 
 	if (moc[0]=='A'){	//玩家选A龙-2，玩家受龙伤害；玩家选B一定什么都没发生；玩家选C上面已经break了； 
 		bod-=2;
 		if(mod == 0){
@@ -840,7 +898,7 @@ int dragonfight(void){
 			boc -= 3;
 		}
 	} 
-															//输出本回合结果 
+			//输出本回合结果 
 	printf("经过这回合,你还剩%d滴血，龙还剩%d滴血\n\n",boc,bod); 
 
  }while((boc>0)&&(bod>0)); 
@@ -902,14 +960,14 @@ int finalfight(void)
 	printf("\n你只有12血，老师有20血\n");
 	printf("老师会干的事有 打你(让你-1血)、使劲打你(让你-2血)和愤怒地念公式(没什么用)\n\n");
 	
-	do {												//每回合内容 
+	do {		//每回合内容 
 	turn++; 
 	printf("第%d回合\n",turn);
-															//玩家动作 
+			//玩家动作 
 	printf("你选择： A拿匕首戳老师(使龙-2血)   B防御(本回合不受伤) \n");
 	fflush(stdin);
 	scanf("%s",&moc[0]);
-																//math move
+			//math move
 	mom = rand()%3;
 	if (mom ==0 ){								
 		printf("老师决定打你一下(-1)\n"); 
@@ -918,7 +976,7 @@ int finalfight(void)
 	}else {
 		printf("老师愤怒的念了个公式\n"); 
 	} 
-														//结果计算 
+			//结果计算 
 	if (moc[0]=='A'){	//玩家选A老师-2，玩家受伤害；玩家选B一定什么都没发生；
 		bom-=2;
 		if(mom == 0){
@@ -927,7 +985,7 @@ int finalfight(void)
 			boc -= 2;
 		}
 	} 
-															//输出本回合结果 
+			//输出本回合结果 
 	printf("经过这回合,你还剩%d滴血，老师还剩%d滴血\n\n",boc,bom); 
 
  }while((boc>0)&&(bom>0)); 
@@ -942,4 +1000,3 @@ int finalfight(void)
 		fflush(stdin);
 	 return end;
 }
-
