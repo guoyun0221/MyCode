@@ -43,11 +43,18 @@ fflush(stdin);
 printf("请输入年龄："); 
 scanf("%d",&player1.age);
 fflush(stdin);
+
 			//主线选择 
 printf("你的身份是？ A普通大学生 B普通公司职员 C法师 \n");
 scanf("%s",&status[0]); 
 printf("\n");	
 fflush(stdin);
+if(((player1.age>=25)||(player1.age<=15))&&(status[0]=='A')){
+	printf("%d岁的大学生....好吧\n",player1.age);
+		fflush(stdin);
+	scanf("continue");
+	fflush(stdin);
+}
 
 			//开始 
 printf("请确保键盘大写锁定\n   按回车键开始游戏\n      have fun\n");
@@ -607,6 +614,7 @@ if (status[0]=='A'){		//学生主线
 					scanf("continue");
 					fflush(stdin);
 				printf("生活平淡如水，不说痛苦，也很少快乐\n");
+						goto ending ; 
 			} else{
 						printf("你选择了这条不知通向哪里的路\n");
 				printf("那天下午，你与家人朋友告别，踏上了这段旅程\n");
