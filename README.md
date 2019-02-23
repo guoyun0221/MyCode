@@ -1,2 +1,1 @@
-# MyGame
 Everything starts here.
