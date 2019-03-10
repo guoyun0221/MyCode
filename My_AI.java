@@ -3,7 +3,6 @@ public class My_AI
 {
 	public static void replacechar(String s)
 	{
-		int i=0;
 		String s1="0";
 		String s2="0";
 		String s3="0";
@@ -48,9 +47,9 @@ public class My_AI
 		
 		if(!s20.equals(s)){
 			System.out.println("-"+s20+"\n");
-			}else{
+		}else{
 			System.out.println("-听不懂，滚!\n");
-			}
+		}
 	}
 	public static void main(String[] args)
 	{
