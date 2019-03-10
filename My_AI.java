@@ -21,6 +21,9 @@ public class My_AI
 		String s15="0";
 		String s16="0";
 		String s17="0";
+		String s18="0";
+		String s19="0";
+		String s20="0";
 
 		s1 = s.replaceAll("我","我也");
 		s2 = s1.replace('你','我');
@@ -39,8 +42,15 @@ public class My_AI
 		s15=s14.replaceAll("谁","我");
 		s16=s15.replaceAll("会","不会");
 		s17=s16.replace('怎','这');
-
-		System.out.println("-"+s17+"\n");
+		s18=s17.replaceAll("他","你也");
+		s19=s18.replaceAll("今天","昨天");
+		s20=s19.replaceAll("真","确实");
+		
+		if(!s20.equals(s)){
+			System.out.println("-"+s20+"\n");
+			}else{
+			System.out.println("-听不懂，滚!\n");
+			}
 	}
 	public static void main(String[] args)
 	{
