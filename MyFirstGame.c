@@ -890,6 +890,7 @@ int dragonfight(void){
 	}
 				//龙动作 
 	mod = rand()%3;
+	printf("\n");
 	if (mod ==0 ){								
 		printf("龙决定打你一下(-1)\n"); 
 	}else if (mod == 1 ){
@@ -908,12 +909,14 @@ int dragonfight(void){
 	} 
 			//输出本回合结果 
 	printf("经过这回合,你还剩%d滴血，龙还剩%d滴血\n\n",boc,bod); 
-
+			fflush(stdin);
+			scanf("continue");
+			fflush(stdin);
  }while((boc>0)&&(bod>0)); 
- 	if(boc==0){
+ 	if(boc<=0){
  		printf("你死了。。\n");
 		end = 0; 
-	 }else if(bod==0){
+	 }else if(bod<=0){
 	 	printf("你赢了！\n"); 	
 	 }
 		fflush(stdin);
@@ -977,6 +980,7 @@ int finalfight(void)
 	scanf("%s",&moc[0]);
 			//math move
 	mom = rand()%3;
+	printf("\n");
 	if (mom ==0 ){								
 		printf("老师决定打你一下(-1)\n"); 
 	}else if (mom == 1 ){
@@ -995,7 +999,9 @@ int finalfight(void)
 	} 
 			//输出本回合结果 
 	printf("经过这回合,你还剩%d滴血，老师还剩%d滴血\n\n",boc,bom); 
-
+			fflush(stdin);
+			scanf("continue");
+			fflush(stdin);
  }while((boc>0)&&(bom>0)); 
  	if(boc<=0){
  		printf("你死了\n");
