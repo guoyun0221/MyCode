@@ -6,9 +6,10 @@
 
 #define xsize 110 
 #define ysize 27 
+#define namelen 8
 
 typedef struct{   
-	char name[8];
+	char name[namelen];
 	int x ;
 	int y ;
 }object;  //角色的参数. x,y为其坐标	
@@ -18,13 +19,14 @@ void Random_Move(int *x ,int *y);
 void Reorder(object a[],int num);
 void Update_Location(object a[],int num);
 void If_Caught(object a[],int num,char huntername[]);
+void Rename(char a[],char b[]);
 
 int main()
 {
 	srand(time(0));
-	char huntername[8];
+	char huntername[namelen];
 	int hunternum;
-	char preyname[8];
+	char preyname[namelen];
 	int preynum;
 	int i;//遍历用的 
 	
@@ -158,13 +160,21 @@ void If_Caught(object a[],int num,char huntername[])
 			if((a[i].x-a[i+1].x>-4)&&(a[i].x-a[i-1].x<4)){  //横坐标也满足条件(相距够近) 
 				if(strcmp(a[i].name,a[i+1].name)){   //如果不是同类//strcmp，相同会返回0 
 					if(strcmp(a[i].name,huntername)){  //如果a[i]不是hunter 
-						a[i].name[0]='\0';//猎物死掉(不打印出来了) 
+						Rename(a[i].name,huntername);//就让a[i]变成hunter 
 					}else{
-						a[i+1].name[0]='\0';
+						Rename(a[i+1].name,huntername);
 					} 
 				}
 			}
 		}	
+	}
+}
+
+void Rename(char a[],char b[])
+{
+	int i;
+	for(i=0;i<namelen;++i){
+		a[i]=b[i];
 	}
 }
 
