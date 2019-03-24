@@ -35,7 +35,7 @@ int main()
 }
 
 void Repaint(char s[],int x,int y)
-{					//根据坐标绘制玩家位置 
+{					//根据坐标绘制玩家
 	int i=0;
 	for(i=0;i<y;++i){
 		printf("\n");
