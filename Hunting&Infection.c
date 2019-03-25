@@ -4,29 +4,31 @@
 #include <time.h>
 #include <windows.h>
 
-#define xsize 110 
-#define ysize 27 
-#define namelen 8
+#define xsize 110
+#define ysize 27
+#define MaxNameLength 8
 
 typedef struct{   
-	char name[namelen];
+	char name[MaxNameLength];
+	int namelength;		//后面防止字符串闪现和判断caught用 
 	int x ;
 	int y ;
 }object;  //角色的参数. x,y为其坐标	
 
+int Name_Length(char a[]);
 void Repaint(const object a[],const int num);
 void Random_Move(int *x ,int *y);
 void Reorder(object a[],int num);
 void Update_Location(object a[],int num);
 void If_Caught(object a[],int num,char huntername[]);
-void Rename(char a[],char b[]);
+void Rename(object *a ,object *b);
 
 int main()
 {
 	srand(time(0));
-	char huntername[namelen];
+	char huntername[MaxNameLength];
 	int hunternum;
-	char preyname[namelen];
+	char preyname[MaxNameLength];
 	int preynum;
 	int i;//遍历用的 
 	
@@ -45,11 +47,13 @@ int main()
 	
 	for(i=0;i<hunternum;++i){//初始化hunter
 		strcpy(objects[i].name,huntername);//字符串是数组不能直接赋值 
+		objects[i].namelength=Name_Length(objects[i].name);
 		objects[i].x=rand()%xsize;//随机生成位置坐标 
 		objects[i].y=rand()%ysize;
 	}
 	for(i;i<num;++i){//初始化prey 
 		strcpy(objects[i].name,preyname);
+		objects[i].namelength=Name_Length(objects[i].name);
 		objects[i].x=rand()%xsize;
 		objects[i].y=rand()%ysize;
 	}
@@ -59,10 +63,19 @@ int main()
 		Repaint(objects,num);	//重画 
 		Update_Location(objects,num);//随机运动，按位置排序 
 		If_Caught(objects,num,huntername);//判断是否抓住 
-		Sleep(150);
+		Sleep(100);
 		system("cls");	//清屏 
 	}
 	return 0;
+}
+
+int Name_Length(char a[])
+{
+	int count=0;
+	while(a[count]!='\0'){
+		++count;
+	}
+	return count;
 }
 
 void Repaint(const object a[],const int num)
@@ -88,11 +101,9 @@ void Repaint(const object a[],const int num)
 				printf(" ");
 			}
 			printf("%s",a[t].name);
-		}else{			
-			for(;i<a[t].y;++i){
-				printf("\n");
-			}
-			for(;j<a[t].x;++j){//在同一行不从0打印空格，避免闪现,但还是因为字符串本身的长度而有些闪现 
+		}else{	
+			j=j+a[t-1].namelength;//把前一个字符串本身的长度算进去，避免闪现 
+			for(;j<a[t].x;++j){//在同一行不从0打印空格，避免闪现
 				printf(" ");
 			}
 			printf("%s",a[t].name);
@@ -149,20 +160,20 @@ void Update_Location(object a[],int num)
 		Random_Move(&a[i].x,&a[i].y);
 	}
 	
-	Reorder(a ,num );//重新排序 
+	Reorder(a , num);//重新排序 
 }
 
 void If_Caught(object a[],int num,char huntername[])
 {
 	int i;
-	for(i=0;i<num;++i){
-		if((a[i].y-a[i+1].y>-2)&&(a[i].y-a[i-1].y<2)){  //纵坐标满足条件 
-			if((a[i].x-a[i+1].x>-4)&&(a[i].x-a[i-1].x<4)){  //横坐标也满足条件(相距够近) 
+	for(i=0;i<num-1;++i){
+		if(a[i].y-a[i+1].y>-2){  //纵坐标满足条件 
+			if((a[i].x-a[i+1].x>=-a[i].namelength)&&(a[i].x-a[i+1].x<=a[i+1].namelength)){ //横坐标也满足条件(相距够近) 
 				if(strcmp(a[i].name,a[i+1].name)){   //如果不是同类//strcmp，相同会返回0 
 					if(strcmp(a[i].name,huntername)){  //如果a[i]不是hunter 
-						Rename(a[i].name,huntername);//就让a[i]变成hunter 
+						Rename(&a[i],&a[i+1]);//就让a[i]变成hunter 
 					}else{
-						Rename(a[i+1].name,huntername);
+						Rename(&a[i+1],&a[i]);
 					} 
 				}
 			}
@@ -170,11 +181,11 @@ void If_Caught(object a[],int num,char huntername[])
 	}
 }
 
-void Rename(char a[],char b[])
+void Rename(object *a,object *b)//b是hunter ,a是prey 
 {
 	int i;
-	for(i=0;i<namelen;++i){
-		a[i]=b[i];
+	for(i=0;i<=b->namelength;++i){	//<=为了把'\0'也复制过去 
+		a->name[i]=b->name[i];
 	}
+	a->namelength=b->namelength;
 }
-
