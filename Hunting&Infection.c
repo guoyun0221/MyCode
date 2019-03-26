@@ -128,7 +128,6 @@ void Rescue_Prey(void)
 			system("cls");
 			printf("\n---------\n你救下了%d只猎物,最开始有%d只。你死了。\n",savedprey,preynumber);	
 			printf("You saved %d prey out of %d, and you died.\n",savedprey,preynumber);
-			sleep(1);
 			break;
 		}	
 		if(If_None_prey(objects,number)){  	//没有prey了，游戏结束 
@@ -139,7 +138,6 @@ void Rescue_Prey(void)
 			system("cls");
 			printf("\n----------\n你救下了%d只猎物,最开始有%d只。\n",savedprey,preynumber);	
 			printf("You saved %d prey out of %d.\n",savedprey,preynumber);
-			sleep(1);
 			break;
 		}
 		Reorder(objects,number);//解决玩家a[i]吃掉preya[i-1]之后瞬间跑到a[i-2]后边的问题。 
