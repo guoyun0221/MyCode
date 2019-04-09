@@ -1,0 +1,32 @@
+        else {
+                if(key ==(*t )->data){
+                        return delete(t);
+                }
+                else if (key < (*t )->data){
+                        return deletebst(&(*t)->lchild,key);
+                }
+                else 
+                        return deletebst(&(*t)->rchild,key);
+        }
+}
+int main()
+{
+        int i;
+        int a[16]={29,35,36,37,47,48,49,50,51,56,58,62,73,88,93,99};
+        bitree t = NULL;
+        for(i=0;i<16;++i){
+                insertbst(&t,a[i]);
+        }
+        bitree p ;
+        printf("search result is %d\n",searchbst(t,12,NULL,&p));
+        inordertraversebst(t);
+        printf("\n");
+        deletebst(&t,37);
+        inordertraversebst(t);
+        printf("\n");
+        return 0;
+}
+
+
+
+                                                              110,0-1       Bot
