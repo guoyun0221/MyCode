@@ -4,7 +4,7 @@
 
 void Shutdown(void)
 {
-	printf("你的电脑将于3分钟后关机\n");
+	printf("你的电脑将于2分钟后关机\n");
 	printf("Your system will shut down in 2 minutes\n\n");
 	system("shutdown -s -t 120");
 	
