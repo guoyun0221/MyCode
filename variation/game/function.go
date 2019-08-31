@@ -221,7 +221,7 @@ func CreateMonster(stage int) Monster {
 		mon.LV = mon.ATK/5 + mon.HP/100
 	} else { //after 15 round, monster becomes stronger fast
 		t := float64(stage)
-		n := int(math.Exp(t))
+		n := int(math.Exp(t) / math.Exp2(t))
 		mon.ATK = n + rand.Intn(10) - 5
 		mon.HP = n*10 + rand.Intn(100) - 50
 		mon.LV = mon.ATK/5 + mon.HP/100
