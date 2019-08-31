@@ -37,13 +37,15 @@ func Start() (Army, int) {
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("Strengthen your army and defeat monsters")
 	time.Sleep(200 * time.Millisecond)
-	fmt.Println("You have three ways to do it:")
+	fmt.Println("You have four ways to do it:")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("Producing: Spend 10 to produce a soldier")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("Upgrading: Spend 10 to get a soldier ATK and HP increased by 10 percent")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("Merging: Spend 10 to merge two different soldiers into a new and stronger one")
+	time.Sleep(200 * time.Millisecond)
+	fmt.Println("Generating: Spend 10 to get a new random soldier")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("-------------------------------------------------------------------------------")
 
@@ -92,7 +94,7 @@ func Option(army Army, money *int) Army {
 		time.Sleep(200 * time.Millisecond)
 		fmt.Println("What do you wannna do?")
 		time.Sleep(200 * time.Millisecond)
-		fmt.Println("A: Produce   B: Upgrade   C: Merge   D: Done")
+		fmt.Println("A: Produce   B: Upgrade   C: Merge   D: Generate   E: Done")
 		var choice string
 		fmt.Scanln(&choice)
 
@@ -166,6 +168,24 @@ func Option(army Army, money *int) Army {
 				if j == k {
 					fmt.Println("I said two fucking different soldiers")
 				}
+			}
+
+		} else if choice == "D" || choice == "d" {
+			if *money >= 10 {
+				var s Soldier
+				s.born()
+				time.Sleep(200 * time.Millisecond)
+				fmt.Println("You got a new kind of soildier, its attribute is: ")
+				time.Sleep(200 * time.Millisecond)
+				fmt.Printf("rank:%s  ATK:%d  HP:%d  lv:%d\n", s.Rank, s.ATK, s.HP, s.LV)
+				time.Sleep(200 * time.Millisecond)
+				fmt.Println("Name it:")
+				fmt.Scanln(&s.Name)
+				army = append(army, s)
+				*money -= 10
+			} else {
+				time.Sleep(200 * time.Millisecond)
+				fmt.Println("You don't have enough money")
 			}
 
 		} else {
