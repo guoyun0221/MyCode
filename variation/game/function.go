@@ -31,6 +31,21 @@ func status(army Army, money int) { /*show status : money and army*/
 	fmt.Println("-----------------------")
 }
 
+func set_name(army Army) string {
+	var name string
+	time.Sleep(200 * time.Millisecond)
+	fmt.Println("Name it:")
+	fmt.Scanln(&name)
+	for _, s := range army {
+		if name == s.Name {
+			fmt.Println("This name has already been used.")
+			name = name + fmt.Sprintf("%d", rand.Intn(100))
+			fmt.Println("Let me name it for you, how about", name)
+		}
+	}
+	return name
+}
+
 func Start() (Army, int) {
 	fmt.Println("----------------------------------Game started----------------------------------")
 
@@ -48,6 +63,7 @@ func Start() (Army, int) {
 	fmt.Println("Generating: Spend 10 to get a new random soldier")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("-------------------------------------------------------------------------------")
+	fmt.Scanln()
 
 	army, money := initialize()
 	time.Sleep(200 * time.Millisecond)
@@ -56,16 +72,12 @@ func Start() (Army, int) {
 	fmt.Println("The first one is")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Printf("population:%d  rank:%s  ATK:%d  HP:%d  lv:%d\n", army[0].Number, army[0].Rank, army[0].ATK, army[0].HP, army[0].LV)
-	time.Sleep(200 * time.Millisecond)
-	fmt.Println("Name it:")
-	fmt.Scanln(&army[0].Name)
+	army[0].Name = set_name(army)
 	time.Sleep(200 * time.Millisecond)
 	fmt.Println("The second one is")
 	time.Sleep(200 * time.Millisecond)
 	fmt.Printf("population:%d  rank:%s  ATK:%d  HP:%d  lv:%d\n", army[1].Number, army[1].Rank, army[1].ATK, army[1].HP, army[1].LV)
-	time.Sleep(200 * time.Millisecond)
-	fmt.Println("Name it:")
-	fmt.Scanln(&army[1].Name)
+	army[1].Name = set_name(army)
 
 	return army, money
 }
@@ -159,11 +171,7 @@ func Option(army Army, money *int) Army {
 					fmt.Println("You get a new soldier:")
 					time.Sleep(200 * time.Millisecond)
 					fmt.Printf("rank:%s  ATK:%d   HP:%d\n", army[len(army)-1].Rank, army[len(army)-1].ATK, army[len(army)-1].HP)
-					time.Sleep(200 * time.Millisecond)
-					fmt.Println("Name it:")
-					var name string
-					fmt.Scanln(&name)
-					army[len(army)-1].Name = name
+					army[len(army)-1].Name = set_name(army)
 				}
 				if j == k {
 					fmt.Println("I said two fucking different soldiers")
@@ -178,9 +186,7 @@ func Option(army Army, money *int) Army {
 				fmt.Println("You got a new kind of soildier, its attribute is: ")
 				time.Sleep(200 * time.Millisecond)
 				fmt.Printf("rank:%s  ATK:%d  HP:%d  lv:%d\n", s.Rank, s.ATK, s.HP, s.LV)
-				time.Sleep(200 * time.Millisecond)
-				fmt.Println("Name it:")
-				fmt.Scanln(&s.Name)
+				s.Name = set_name(army)
 				army = append(army, s)
 				*money -= 10
 			} else {
