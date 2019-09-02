@@ -2,4 +2,4 @@
 My first spider.
 
 http://placekitten.com 
-In this web, just put image size after URL to get a placeholder.
+In this web, just put image size after URL to get a picture.
