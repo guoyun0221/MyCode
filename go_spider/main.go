@@ -6,13 +6,12 @@ import (
 )
 
 func main() {
-
-	fmt.Println("Something you can do here")
 	fmt.Println(" ")
+	fmt.Println("Something you can do here")
 	fmt.Println("A: Get some emails from a page (BTW, The code doesn't work for many webpages...)")
 	fmt.Println("B: Get some pictures from a page (The code doesn't work for many webpages, either...)")
 	fmt.Println("C: Get 1000 random users' information of Bilibili, including id, name, sex, level and picture")
-
+	fmt.Println("D: Get questions from zhihu(don't know how to pass zhihu's security verification, so it doesn't work sometimes)")
 	var s string
 	fmt.Scanln(&s)
 
@@ -22,6 +21,8 @@ func main() {
 		spiders.Img()
 	} else if s == "C" || s == "c" {
 		spiders.Bilibili_user()
+	} else if s == "D" || s == "d" {
+		spiders.Zhihu_question()
 	}
 
 }
