@@ -5,9 +5,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	"os"
 	"regexp"
-	"strconv"
 	"time"
 )
 
@@ -34,22 +32,4 @@ func Img() {
 	for _, pic := range list {
 		download_pic(pic[1])
 	}
-}
-
-func download_pic(pic string) {
-	fmt.Println(pic)
-	resp, err := http.Get(pic)
-	catch_error(err)
-
-	picture, err := ioutil.ReadAll(resp.Body)
-	catch_error(err)
-	defer resp.Body.Close()
-
-	f, err := os.Create("pics/" + strconv.Itoa(rand.Intn(99999)) + "" + pic[len(pic)-5:])
-	//use a random number and the last 5 characters of link(like x.jpg) to name the file
-	catch_error(err)
-	defer f.Close()
-
-	_, er := f.Write(picture)
-	catch_error(er)
 }
