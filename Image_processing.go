@@ -18,6 +18,7 @@ func main() {
 	fmt.Println("Something you can do")
 	fmt.Println("A: Create a random rect on a image")
 	fmt.Println("B: Merge two pictures into one")
+	fmt.Println("C1: Flip horizontal; C2: Flip vertical")
 
 	var s string
 	fmt.Scanln(&s)
@@ -26,8 +27,16 @@ func main() {
 		Random_color_rect()
 	} else if s == "B" || s == "b" {
 		Merge()
+	} else if s == "C1" || s == "c1" || s == "C2" || s == "c2" {
+		Flip(s)
 	}
 
+}
+
+func handle_error(err error) {
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func decode_img(f *os.File, f_name string) image.Image {
@@ -36,14 +45,10 @@ func decode_img(f *os.File, f_name string) image.Image {
 
 	if f_name[len(f_name)-3:] == "jpg" || f_name[len(f_name)-4:] == "jpeg" {
 		img, err = jpeg.Decode(f)
-		if err != nil {
-			fmt.Println(err)
-		}
+		handle_error(err)
 	} else if f_name[len(f_name)-3:] == "png" {
 		img, err = png.Decode(f)
-		if err != nil {
-			fmt.Println(err)
-		}
+		handle_error(err)
 	}
 	return img
 }
@@ -52,14 +57,10 @@ func encode_img(f *os.File, f_name string, img image.Image) {
 	var err error
 	if f_name[len(f_name)-3:] == "jpg" || f_name[len(f_name)-4:] == "jpeg" {
 		err = jpeg.Encode(f, img, nil) //nil for DefaultQuality
-		if err != nil {
-			fmt.Println(err)
-		}
+		handle_error(err)
 	} else if f_name[len(f_name)-3:] == "png" {
 		err = png.Encode(f, img)
-		if err != nil {
-			fmt.Println(err)
-		}
+		handle_error(err)
 	}
 }
 
@@ -68,14 +69,12 @@ func Random_color_rect() {
 	var file_name string
 	fmt.Scanln(&file_name)
 	src_file, err := os.Open(file_name)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handle_error(err)
 	defer src_file.Close()
 	img := decode_img(src_file, file_name) //turn the img file into data
 
-	color_pic := image.NewRGBA(image.Rect(0, 0, 20+rand.Intn(img.Bounds().Dx()), 20+rand.Intn(img.Bounds().Dy())))
-	//color size is random and smaller than src img, +20 is to avoid the pic being too small to see
+	color_pic := image.NewRGBA(image.Rect(0, 0, rand.Intn(img.Bounds().Dx()), rand.Intn(img.Bounds().Dy())))
+	//color size is random and smaller than src img
 	color := palette.Plan9[rand.Intn(256)]
 	//random color
 	draw.Draw(color_pic, color_pic.Bounds(), &image.Uniform{color}, image.ZP, draw.Src)
@@ -91,9 +90,7 @@ func Random_color_rect() {
 	fmt.Println("Input the name of the new image (only accept .png/.jpg/.jpeg file)") //create the new file
 	fmt.Scanln(&file_name)
 	dst_file, err := os.Create(file_name)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handle_error(err)
 	defer dst_file.Close()
 	encode_img(dst_file, file_name, img_draw)
 }
@@ -105,14 +102,10 @@ func Merge() {
 	fmt.Scanln(&file_name_1, &file_name_2)
 	//open file and decode the two pics
 	f1, err := os.Open(file_name_1)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handle_error(err)
 	defer f1.Close()
 	f2, err := os.Open(file_name_2)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handle_error(err)
 	defer f2.Close()
 	img1 := decode_img(f1, file_name_1)
 	img2 := decode_img(f2, file_name_2)
@@ -146,9 +139,36 @@ func Merge() {
 	fmt.Println("Input the name of the new image file (only accept .png/.jpg/.jpeg file)")
 	fmt.Scanln(&file_result)
 	f_dst, err := os.Create(file_result)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handle_error(err)
 	defer f_dst.Close()
 	encode_img(f_dst, file_result, dst)
+}
+
+func Flip(di string) { // need one argument to know flip direction, horizontal or vertical
+	fmt.Println("Input the name of the original image (only accept .png/.jpg/.jpeg file)")
+	var file_name string
+	fmt.Scanln(&file_name)
+	f_src, err := os.Open(file_name)
+	handle_error(err)
+	defer f_src.Close()
+	src := decode_img(f_src, file_name)
+
+	dst := image.NewRGBA(src.Bounds())
+
+	for x := 0; x < dst.Bounds().Dx(); x++ {
+		for y := 0; y < dst.Bounds().Dy(); y++ {
+			if di == "C1" || di == "c1" { //flip horizontal
+				dst.Set(x, y, src.At(src.Bounds().Dx()-x, y))
+			} else { //flip vertical
+				dst.Set(x, y, src.At(x, src.Bounds().Dy()-y))
+			}
+		}
+	}
+
+	fmt.Println("Input the name of the new image file (only accept .png/.jpg/.jpeg file)")
+	fmt.Scanln(&file_name)
+	f_dst, err := os.Create(file_name)
+	handle_error(err)
+	defer f_dst.Close()
+	encode_img(f_dst, file_name, dst)
 }
