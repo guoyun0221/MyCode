@@ -20,6 +20,7 @@ func main() {
 	fmt.Println("A: Create a random rect on a image")
 	fmt.Println("B: Merge two pictures into one")
 	fmt.Println("C1: Flip horizontal; C2: Flip vertical")
+	fmt.Println("D: Rotate (clockwise, 90°)")
 
 	var s string
 	fmt.Scanln(&s)
@@ -30,6 +31,8 @@ func main() {
 		Merge()
 	} else if s == "C1" || s == "c1" || s == "C2" || s == "c2" {
 		Flip(s)
+	} else if s == "D" || s == "d" {
+		rotate()
 	}
 
 }
@@ -181,4 +184,29 @@ func Flip(di string) { // need one argument to know flip direction, horizontal o
 	}
 
 	get_dst_file(dst)
+}
+
+func rotate() {
+
+	img := get_src_img()
+
+	dst := image.NewRGBA(image.Rect(0, 0, img.Bounds().Dy(), img.Bounds().Dx())) //exchange the height and width of src
+
+	/*I've tried to rotate the pic directly, but I didn't work it out, so I spend two step to make it,
+	first get it symmetry to y=x, then flip it horizontally*/
+	for x := 0; x < dst.Bounds().Dx(); x++ {
+		for y := 0; y < dst.Bounds().Dy(); y++ {
+			dst.Set(x, y, img.At(y, x)) //symmetry to y=x
+		}
+	}
+
+	real_dst := image.NewRGBA(dst.Bounds())
+
+	for x := 0; x < real_dst.Bounds().Dx(); x++ {
+		for y := 0; y < real_dst.Bounds().Dy(); y++ {
+			real_dst.Set(x, y, dst.At(dst.Bounds().Dx()-x, y)) //flip it horizontally
+		}
+	}
+
+	get_dst_file(real_dst)
 }
