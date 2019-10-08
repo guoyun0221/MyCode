@@ -17,10 +17,11 @@ func main() {
 	rand.Seed(time.Now().Unix())
 
 	fmt.Println("Something you can do")
-	fmt.Println("A: Create a random rect on a image")
+	fmt.Println("A: Create a random rect on an image")
 	fmt.Println("B: Merge two pictures into one")
 	fmt.Println("C1: Flip horizontal; C2: Flip vertical")
 	fmt.Println("D: Rotate (clockwise, 90°)")
+	fmt.Println("E: Convert an image to a gray scale image")
 
 	var s string
 	fmt.Scanln(&s)
@@ -33,6 +34,8 @@ func main() {
 		Flip(s)
 	} else if s == "D" || s == "d" {
 		rotate()
+	} else if s == "E" || s == "e" {
+		Turn_gray()
 	}
 
 }
@@ -209,4 +212,17 @@ func rotate() {
 	}
 
 	get_dst_file(real_dst)
+}
+
+func Turn_gray() { //uses of Alpha is same like Gray
+	img := get_src_img()
+	dst := image.NewGray(img.Bounds())
+
+	for x := 0; x < img.Bounds().Dx(); x++ {
+		for y := 0; y < img.Bounds().Dy(); y++ {
+			dst.Set(x, y, img.At(x, y))
+		}
+	}
+
+	get_dst_file(dst)
 }
