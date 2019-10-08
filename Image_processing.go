@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+
 	rand.Seed(time.Now().Unix())
 
 	fmt.Println("Something you can do")
@@ -33,6 +34,8 @@ func main() {
 
 }
 
+//some Common Functions (first letter lowercase)
+
 func handle_error(err error) {
 	if err != nil {
 		fmt.Println(err)
@@ -50,6 +53,7 @@ func decode_img(f *os.File, f_name string) image.Image {
 		img, err = png.Decode(f)
 		handle_error(err)
 	}
+
 	return img
 }
 
@@ -64,14 +68,39 @@ func encode_img(f *os.File, f_name string, img image.Image) {
 	}
 }
 
-func Random_color_rect() {
-	fmt.Println("Input the name of the original image (only accept .png/.jpg/.jpeg file)") //read a img file
+func get_src_img() image.Image {
+
+	fmt.Println("Input the name of the original image (only accept .png/.jpg/.jpeg file)") //get file name
 	var file_name string
 	fmt.Scanln(&file_name)
-	src_file, err := os.Open(file_name)
+
+	src_file, err := os.Open(file_name) //read file
 	handle_error(err)
 	defer src_file.Close()
+
 	img := decode_img(src_file, file_name) //turn the img file into data
+
+	return img
+}
+
+func get_dst_file(img draw.Image) {
+
+	fmt.Println("Input the name of the new image (only accept .png/.jpg/.jpeg file)")
+	var file_name string
+	fmt.Scanln(&file_name)
+
+	dst_file, err := os.Create(file_name)
+	handle_error(err)
+	defer dst_file.Close()
+
+	encode_img(dst_file, file_name, img)
+}
+
+//Functions with specific functions (First letter uppercase)
+
+func Random_color_rect() {
+
+	img := get_src_img()
 
 	color_pic := image.NewRGBA(image.Rect(0, 0, rand.Intn(img.Bounds().Dx()), rand.Intn(img.Bounds().Dy())))
 	//color size is random and smaller than src img
@@ -87,16 +116,12 @@ func Random_color_rect() {
 	draw.Draw(img_draw, image.Rect(x0, y0, x0+color_pic.Bounds().Dx(), y0+color_pic.Bounds().Dy()), color_pic, image.ZP, draw.Src)
 	//in a random place, draw the random color rect
 
-	fmt.Println("Input the name of the new image (only accept .png/.jpg/.jpeg file)") //create the new file
-	fmt.Scanln(&file_name)
-	dst_file, err := os.Create(file_name)
-	handle_error(err)
-	defer dst_file.Close()
-	encode_img(dst_file, file_name, img_draw)
+	get_dst_file(img_draw)
 }
 
 func Merge() {
-	var file_name_1, file_name_2, file_result string
+
+	var file_name_1, file_name_2 string
 
 	fmt.Println("Input the name of the two original pictures, separate with space key (only accept .png/.jpg/.jpeg file)")
 	fmt.Scanln(&file_name_1, &file_name_2)
@@ -136,22 +161,12 @@ func Merge() {
 		}
 	}
 
-	fmt.Println("Input the name of the new image file (only accept .png/.jpg/.jpeg file)")
-	fmt.Scanln(&file_result)
-	f_dst, err := os.Create(file_result)
-	handle_error(err)
-	defer f_dst.Close()
-	encode_img(f_dst, file_result, dst)
+	get_dst_file(dst)
 }
 
 func Flip(di string) { // need one argument to know flip direction, horizontal or vertical
-	fmt.Println("Input the name of the original image (only accept .png/.jpg/.jpeg file)")
-	var file_name string
-	fmt.Scanln(&file_name)
-	f_src, err := os.Open(file_name)
-	handle_error(err)
-	defer f_src.Close()
-	src := decode_img(f_src, file_name)
+
+	src := get_src_img()
 
 	dst := image.NewRGBA(src.Bounds())
 
@@ -165,10 +180,5 @@ func Flip(di string) { // need one argument to know flip direction, horizontal o
 		}
 	}
 
-	fmt.Println("Input the name of the new image file (only accept .png/.jpg/.jpeg file)")
-	fmt.Scanln(&file_name)
-	f_dst, err := os.Create(file_name)
-	handle_error(err)
-	defer f_dst.Close()
-	encode_img(f_dst, file_name, dst)
+	get_dst_file(dst)
 }
