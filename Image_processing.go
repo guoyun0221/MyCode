@@ -22,6 +22,7 @@ func main() {
 	fmt.Println("C1: Flip horizontal; C2: Flip vertical")
 	fmt.Println("D: Rotate (clockwise, 90°)")
 	fmt.Println("E: Convert an image to a gray scale image")
+	fmt.Println("F: Zoom in or out (losing clarity)")
 
 	var s string
 	fmt.Scanln(&s)
@@ -36,6 +37,8 @@ func main() {
 		rotate()
 	} else if s == "E" || s == "e" {
 		Turn_gray()
+	} else if s == "F" || s == "f" {
+		Zoom()
 	}
 
 }
@@ -221,6 +224,27 @@ func Turn_gray() { //uses of Alpha is same like Gray
 	for x := 0; x < img.Bounds().Dx(); x++ {
 		for y := 0; y < img.Bounds().Dy(); y++ {
 			dst.Set(x, y, img.At(x, y))
+		}
+	}
+
+	get_dst_file(dst)
+}
+
+func Zoom() {
+
+	img := get_src_img()
+	fmt.Println("Input zoom scale factor(e.g. *0.5 means the height and width of new image is 0.5 times of the old one)")
+	fmt.Print("*")
+	var times float32
+	fmt.Scanln(&times)
+
+	x := int(float32(img.Bounds().Dx()) * times)
+	y := int(float32(img.Bounds().Dy()) * times)
+	dst := image.NewRGBA(image.Rect(0, 0, x, y))
+
+	for i := 0; i < x; i++ {
+		for j := 0; j < y; j++ {
+			dst.Set(i, j, img.At(int(float32(i)/times), int(float32(j)/times)))
 		}
 	}
 
