@@ -128,7 +128,7 @@ func color_distance(color_1, color_2 color.Color) float64 {
 	g := math.Abs(float64(RGB_1.G) - float64(RGB_2.G))
 	b := math.Abs(float64(RGB_1.B) - float64(RGB_2.B))
 
-	return (r + g + b)
+	return (r + g + b) //plus r,g,b difference as the total difference
 }
 
 //Functions with specific functions (First letter uppercase)
