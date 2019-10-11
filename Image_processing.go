@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/color/palette"
 	"image/draw"
 	"image/jpeg"
 	"image/png"
+	"math"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -23,6 +26,7 @@ func main() {
 	fmt.Println("D: Rotate (clockwise, 90°)")
 	fmt.Println("E: Convert an image to a gray scale image")
 	fmt.Println("F: Zoom in or out (losing clarity)")
+	fmt.Println("G: Cut picture to several parts by color")
 
 	var s string
 	fmt.Scanln(&s)
@@ -39,6 +43,8 @@ func main() {
 		Turn_gray()
 	} else if s == "F" || s == "f" {
 		Zoom()
+	} else if s == "G" || s == "g" {
+		Cut_by_color()
 	}
 
 }
@@ -103,6 +109,26 @@ func get_dst_file(img draw.Image) {
 	defer dst_file.Close()
 
 	encode_img(dst_file, file_name, img)
+}
+
+func color_distance(color_1, color_2 color.Color) float64 {
+	/* to distinguish how much is the two colors' difference */
+
+	type RGB struct {
+		R uint32
+		G uint32
+		B uint32
+	}
+	var RGB_1, RGB_2 RGB
+
+	RGB_1.R, RGB_1.G, RGB_1.B, _ = color_1.RGBA()
+	RGB_2.R, RGB_2.G, RGB_2.B, _ = color_2.RGBA()
+	/*get r,g,b of two color and calculate the difference*/
+	r := math.Abs(float64(RGB_1.R) - float64(RGB_2.R))
+	g := math.Abs(float64(RGB_1.G) - float64(RGB_2.G))
+	b := math.Abs(float64(RGB_1.B) - float64(RGB_2.B))
+
+	return (r + g + b)
 }
 
 //Functions with specific functions (First letter uppercase)
@@ -249,4 +275,49 @@ func Zoom() {
 	}
 
 	get_dst_file(dst)
+}
+
+func Cut_by_color() {
+
+	type pic struct {
+		img        draw.Image
+		main_color color.Color //similar colors(in range of main_color +/- distance_limit) will be put in one pic
+	}
+	var pics []pic
+	var distance_limit float64 = 50000
+
+	src := get_src_img()
+
+	for x := 0; x < src.Bounds().Dx(); x++ {
+		for y := 0; y < src.Bounds().Dy(); y++ { //traversal all pixels
+
+			var added int = 0 //if the pixel have been put
+
+			for i, _ := range pics { // if the pixel's color is similar to a pic that exists, put it in
+				if added == 0 && color_distance(pics[i].main_color, src.At(x, y)) < distance_limit {
+					pics[i].img.Set(x, y, src.At(x, y))
+					added = 1
+				}
+			}
+
+			if added == 0 { //if the pixel's color is far different from all pics' that exits
+				var new_pic pic //create a new pic, the pixel's color is the main_color
+				new_pic.img = image.NewRGBA(src.Bounds())
+				new_pic.img.Set(x, y, src.At(x, y))
+				new_pic.main_color = src.At(x, y)
+				pics = append(pics, new_pic)
+			}
+		}
+	}
+
+	fmt.Println("set the name of the collection of the pictures")
+	var name string
+	fmt.Scanln(&name)
+	for i, _ := range pics { //traversal all the created images, get dst file
+		f_name := name + strconv.Itoa(i) + ".png" //file name, .png's default alpha is 0
+		dst_file, err := os.Create(f_name)
+		handle_error(err)
+		defer dst_file.Close()
+		encode_img(dst_file, f_name, pics[i].img)
+	}
 }
