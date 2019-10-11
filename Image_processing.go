@@ -26,7 +26,7 @@ func main() {
 	fmt.Println("D: Rotate (clockwise, 90°)")
 	fmt.Println("E: Convert an image to a gray scale image")
 	fmt.Println("F: Zoom in or out (losing clarity)")
-	fmt.Println("G: Cut picture to several parts by color")
+	fmt.Println("G: Cut picture to several parts by color (doesn't work well)")
 
 	var s string
 	fmt.Scanln(&s)
