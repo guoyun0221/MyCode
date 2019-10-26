@@ -15,6 +15,7 @@ const (
 	palette_width = 100
 	border_width  = 10
 	color_height  = 85 // the height of every color in palette area
+	pen_radius    = 5
 )
 
 var canvas *ebiten.Image
@@ -45,8 +46,8 @@ func drawing(screen *ebiten.Image) error {
 		if x < palette_width { //choose color
 			pen_color = (y - border_width) / color_height //mark down color that being chosen
 		} else if x > palette_width+border_width { //drawing
-			op.GeoM.Translate(float64(x)-5, float64(y)-5) //to make cursor in the middle
-			canvas.DrawImage(pen[pen_color], &op)         //draw.
+			op.GeoM.Translate(float64(x)-pen_radius, float64(y)-pen_radius) //to make cursor in the middle
+			canvas.DrawImage(pen[pen_color], &op)                           //draw.
 		}
 	}
 
@@ -103,7 +104,6 @@ func palette_init() {
 }
 
 func pen_init() {
-	const pen_radius = 5
 	//pen is a img that with the circular color
 	for i, _ := range pen {
 		pen_img := image.NewRGBA(image.Rect(0, 0, pen_radius*2, pen_radius*2))
