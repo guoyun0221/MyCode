@@ -12,7 +12,8 @@ func main() {
 	rand.Seed(time.Now().Unix())
 	player.init()
 	rb.init()
-	err := ebiten.Run(game, screen_width, screen_height, 1, "Running_Game")
+	//run the game
+	err := ebiten.Run(game, screen_width, screen_height, 1, "Running_Jumping")
 	handle_error(err)
 }
 
