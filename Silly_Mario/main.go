@@ -18,7 +18,7 @@ func main() {
 }
 
 func game(screen *ebiten.Image) error {
-	if player.blood >= 0 { //game not end
+	if player.blood > 0 { //game not end
 
 		//new roadblock? new blood? roadblocks and blood move left
 		create()
