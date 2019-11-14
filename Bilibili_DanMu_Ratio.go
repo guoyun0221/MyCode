@@ -101,7 +101,6 @@ func analyze() {
 	for i := 0; i < Sample_Size; i++ {
 		vid.av, vid.Views, vid.DanMu, vid.ratio = read_one_line(buf)
 		videos = append(videos, vid)
-
 	}
 	//calculate
 	var average_ratio, sum_ratio float64
