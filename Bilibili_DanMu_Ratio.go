@@ -64,8 +64,9 @@ func crawl() {
 		match_list := re.FindAllStringSubmatch(html, -1)
 		//save data
 		for _, s := range match_list {
+			Views := str2int(s[2])
 			DanMu := str2int(s[3])
-			if DanMu != 0 { //don't count 0 DanMu videos
+			if Views != 0 && DanMu != 0 { //don't count 0 views or 0 DanMu videos
 				//open file
 				f, err := os.OpenFile("videos_data.txt", os.O_CREATE|os.O_APPEND, 0666)
 				if err != nil {
@@ -83,7 +84,6 @@ func crawl() {
 				cnt++                                            //valid data +1
 			}
 		}
-		time.Sleep(time.Second / 100) //avoid being blocked
 	}
 }
 
@@ -101,16 +101,17 @@ func analyze() {
 	for i := 0; i < Sample_Size; i++ {
 		vid.av, vid.Views, vid.DanMu, vid.ratio = read_one_line(buf)
 		videos = append(videos, vid)
-		fmt.Println(vid)
+
 	}
 	//calculate
 	var average_ratio, sum_ratio float64
-	for _, vid := range videos {
+	for i, vid := range videos {
 		sum_ratio += vid.ratio
+		fmt.Println(i, vid.ratio, sum_ratio)
 	}
 	average_ratio = sum_ratio / float64(len(videos))
 	fmt.Printf("\nThe average ratio of DanMu to views is: %.3f%%\n", average_ratio*100)
-	fmt.Println("sum ratio:",sum_ratio,"sample size:"len(videos))
+	fmt.Println("sum ratio:", sum_ratio, "sample size:", len(videos))
 }
 
 func read_one_line(buf *bufio.Reader) (string, int, int, float64) {
