@@ -14,6 +14,7 @@ func Init() {
 	background.Init()
 
 	load_pics()
+
 }
 
 func load_pics() {

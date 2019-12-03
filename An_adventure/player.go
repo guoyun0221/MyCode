@@ -109,6 +109,8 @@ func (player *Player) Walk(key ebiten.Key) {
 			//like player is still moving
 			background.Player_Moving()
 			monsters.Player_Moving()
+			coins.Player_Moving()
+			shop.Player_Moving()
 		}
 	} else if key == ebiten.KeyD {
 		player.Left = false
@@ -120,6 +122,8 @@ func (player *Player) Walk(key ebiten.Key) {
 			//right border, same way to deal it
 			background.Player_Moving()
 			monsters.Player_Moving()
+			coins.Player_Moving()
+			shop.Player_Moving()
 		}
 	}
 	//change leg pic
@@ -153,6 +157,8 @@ func (player *Player) Walk(key ebiten.Key) {
 			}
 		}
 	}
+	//if player eats coins
+	coins = coins.Player_get()
 }
 
 func (player *Player) Jump() {
@@ -202,11 +208,6 @@ func (player *Player) Attack() {
 					monsters[i].X -= (monsters[i].Step + 1)
 				} else {
 					monsters[i].X += (monsters[i].Step + 1)
-				}
-				//if killed
-				if monsters[i].HP <= 0 {
-					monsters = append(monsters[:i], monsters[i+1:]...)
-					player.EXP += 10
 				}
 			}
 		}
@@ -317,18 +318,14 @@ func (player *Player) Update_spell() {
 			if overlap(player.spells[i].Pic, monsters[j].Pic[monsters[j].Pic_index], player.spells[i].Point, monsters[j].Point) {
 				monsters[j].HP -= player.spells[i].ATK_rate * player.ATK
 			}
-			if monsters[j].HP <= 0 {
-				monsters = append(monsters[:j], monsters[j+1:]...)
-				player.EXP += 10
-			}
 		}
 	}
 }
 
 func (player *Player) Upgrade() {
 	player.Level++
-	player.MAX_HP = player.Level * 100
-	player.MAX_MP = player.Level * 100
+	player.MAX_HP += 100
+	player.MAX_MP += 100
 	player.ATK = player.Level
 	player.EXP = 0
 }

@@ -11,10 +11,10 @@ type Process struct {
 }
 
 func (process *Process) Update() {
-	const stage_duration = 3000
+	const stage_duration = 2000
 	process.frame_cnt++
 	if process.frame_cnt > 2000000000 {
 		process.frame_cnt = 0 //avoid overflow
 	}
-	process.stage = int(process.distance / stage_duration)
+	process.stage = int(process.distance/stage_duration) + 1
 }

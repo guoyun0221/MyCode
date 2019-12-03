@@ -2,6 +2,7 @@ package main
 
 import (
 	"math/rand"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -32,6 +33,7 @@ func (monsters Monsters) Update() Monsters {
 	monsters.Walk()
 	monsters.If_Attack()
 	monsters.Update_Spell()
+	monsters = monsters.Death()
 	return monsters
 }
 
@@ -40,6 +42,7 @@ func (monsters Monsters) Birth() Monsters {
 	//Every (distance_interval) pixes player walks, a group of monsters will be born
 	const birth_zone = 1200 //monster will birth in the zone of [x,x+BirthZone), x is the screen_width
 	const max_number = 7    //number of monsters at most in a group
+	const pic_num = 2
 
 	if int(process.distance/distance_interval) == process.monster_group_cnt {
 		//create a group of mosnters
@@ -47,7 +50,7 @@ func (monsters Monsters) Birth() Monsters {
 		for i := 0; i < num; i++ {
 			//init a monster
 			var monster Monster
-			monster.Name = "monster_0"
+			monster.Name = "monster_" + strconv.Itoa((process.stage+pic_num)%pic_num)
 			monster.Step = 2
 			monster.X = float64(rand.Intn(birth_zone) + screen_width)
 			monster.Y = screen_height - ground_height - monster_size
@@ -60,8 +63,8 @@ func (monsters Monsters) Birth() Monsters {
 			} else {
 				monster.Pic_index = monster.Name + ".png"
 			}
-			monster.ATK = (process.stage + 1)
-			monster.MAX_HP = (process.stage + 1) * 100
+			monster.ATK = (process.stage)
+			monster.MAX_HP = (process.stage) * 100
 			monster.HP = monster.MAX_HP
 			//add it to slice
 			monsters = append(monsters, monster)
@@ -136,4 +139,24 @@ func (monsters Monsters) Player_Moving() {
 			monsters[i].X -= player.Step
 		}
 	}
+}
+
+func (monsters Monsters) Death() Monsters {
+	//walk monsters, if any dies, transform into coin
+	for i := 0; i < len(monsters); i++ {
+		if monsters[i].HP <= 0 {
+			//turn into coin
+			var coin Coin
+			coin.X = monsters[i].X + (monster_size-coin_size)/2
+			coin.Y = screen_height - ground_height - coin_size
+			coin.img = get_img("coin.png")
+			coin.value = process.stage
+			coins = append(coins, coin)
+			//delete died one
+			monsters = append(monsters[:i], monsters[i+1:]...)
+			//player gain exp
+			player.EXP += 15
+		}
+	}
+	return monsters
 }

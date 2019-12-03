@@ -12,14 +12,16 @@ func main() {
 
 func Game(screen *ebiten.Image) error {
 	if player.HP > 0 {
+		//update process thing
+		process.Update()
 		//update player
 		player.Get_Movement()
 		//update monsters
 		monsters = monsters.Update()
+		//shop thing
+		shop.Update()
 	}
 	//draw stuff
 	Draw(screen)
-	//update process thing
-	process.Update()
 	return nil
 }

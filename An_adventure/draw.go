@@ -36,6 +36,16 @@ func Draw(screen *ebiten.Image) {
 			}
 		}
 	}
+	//draw coins
+	for _, coin := range coins {
+		op.GeoM.Translate(coin.X, coin.Y)
+		screen.DrawImage(coin.img, &op)
+		op.GeoM.Reset()
+	}
+	//draw shop
+	op.GeoM.Translate(shop.X, shop.Y)
+	screen.DrawImage(shop.img, &op)
+	op.GeoM.Reset()
 	//draw player
 	op.GeoM.Translate(player.X, player.Y)
 	screen.DrawImage(player.Pics[player.Pic_index], &op) //draw player pic according index
@@ -61,6 +71,7 @@ func Draw(screen *ebiten.Image) {
 	}
 	//delete hit pics points
 	hit_pics.Points = hit_pics.Points[0:0]
-	//print thing
-	ebitenutil.DebugPrint(screen, "HP: "+strconv.Itoa(player.HP)+"   MP "+strconv.Itoa(player.MP))
+	//print player state
+	ebitenutil.DebugPrint(screen, "lv: "+strconv.Itoa(player.Level)+"   money: "+strconv.Itoa(player.Money)+"   ATK: "+strconv.Itoa(player.ATK))
+	ebitenutil.DebugPrint(screen, "\nHP: "+strconv.Itoa(player.HP)+"/"+strconv.Itoa(player.MAX_HP)+"   MP "+strconv.Itoa(player.MP)+"/"+strconv.Itoa(player.MAX_MP))
 }
