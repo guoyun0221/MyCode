@@ -27,6 +27,7 @@ func main() {
 	fmt.Println("E: Convert an image to a gray scale image")
 	fmt.Println("F: Zoom in or out (losing clarity)")
 	fmt.Println("G: Cut picture to several parts by color (doesn't work well)")
+	fmt.Println("H: Blur picture")
 
 	var s string
 	fmt.Scanln(&s)
@@ -45,6 +46,8 @@ func main() {
 		Zoom()
 	} else if s == "G" || s == "g" {
 		Cut_by_color()
+	} else if s == "H" || s == "h" {
+		Blur()
 	}
 
 }
@@ -320,4 +323,58 @@ func Cut_by_color() {
 		defer dst_file.Close()
 		encode_img(dst_file, f_name, pics[i].img)
 	}
+}
+
+func Blur() {
+	img := get_src_img()
+	dst := image.NewRGBA(image.Rect(0, 0, img.Bounds().Dx(), img.Bounds().Dy()))
+	var col [25]color.Color
+	var sumR, sumG, sumB uint32
+	//Use the average value of the surrounding pixel color as the color of the pixel
+	for x := 0; x < img.Bounds().Dx(); x++ {
+		for y := 0; y < img.Bounds().Dy(); y++ {
+			col[0] = img.At(x-1, y-1)
+			col[1] = img.At(x, y-1)
+			col[2] = img.At(x+1, y-1)
+			col[3] = img.At(x-1, y)
+			col[4] = img.At(x, y)
+			col[5] = img.At(x+1, y)
+			col[6] = img.At(x-1, y+1)
+			col[7] = img.At(x, y+1)
+			col[8] = img.At(x+1, y+1)
+
+			col[9] = img.At(x-2, y-2)
+			col[10] = img.At(x-1, y-2)
+			col[11] = img.At(x, y-2)
+			col[12] = img.At(x+1, y-2)
+			col[13] = img.At(x+2, y-2)
+			col[14] = img.At(x-2, y-1)
+			col[15] = img.At(x+2, y-1)
+			col[16] = img.At(x-2, y)
+			col[17] = img.At(x+2, y)
+			col[18] = img.At(x-2, y+1)
+			col[19] = img.At(x+2, y+1)
+			col[20] = img.At(x-2, y+2)
+			col[21] = img.At(x-1, y+2)
+			col[22] = img.At(x, y+2)
+			col[23] = img.At(x+1, y+2)
+			col[24] = img.At(x+2, y+2)
+
+			sumR = 0
+			sumG = 0
+			sumB = 0
+			for _, c := range col {
+				R, G, B, _ := c.RGBA()
+				sumR += R
+				sumG += G
+				sumB += B
+			}
+			R := sumR / 25
+			G := sumG / 25
+			B := sumB / 25
+			var dst_col color.NRGBA64 = color.NRGBA64{uint16(R), uint16(G), uint16(B), 0xffff}
+			dst.Set(x, y, dst_col)
+		}
+	}
+	get_dst_file(dst)
 }
