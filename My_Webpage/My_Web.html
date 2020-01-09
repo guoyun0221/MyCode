@@ -6,50 +6,28 @@
 		<title>My web</title>
 		<style type = "text/css">
 			#information{
-				font-size: 130%;
+				width:100%;
+				position:fixed; 
+				bottom:0px; 
+				left:0px;
+				text-align:center;
+				font-size: 150%;
 				color: black;
+				font-family: consolas;
 			}
 			#background{
 				background-image: url(background.jpg);
 				background-repeat: no-repeat;
 				background-size: cover;
 				background-attachment: fixed;
-				
-				font-family: consolas;
 			}
 			a{
 				color: black;/*default color is blue, I don't know why*/
 			}
-			
 		</style>
-		<script>
-			window.onload = function(){  
-				var btn = document.getElementById("background"); 
-				btn.onclick = function(){
-					var canvas = document.getElementById("myCanvas");
-					var ctx = canvas.getContext("2d");
-					
-					var red = Math.random() *255;
-				    var green =Math.random() *255;
-					var blue = Math.random()*255;
-					var x = Math.random()*canvas.width;
-					var y = Math.random()*canvas.height;
-					var r = Math.random()*100;
-					
-					ctx.beginPath();  
-					ctx.arc(x,y,r,0,2*Math.PI);  
-					ctx.fillStyle = 'rgba('+ red +','+ green +','+ blue +',1)';
-					ctx.fill();
-				};
-			};
-			
-		</script>
 	</head>
 
 	<body id="background">
-		<canvas id="myCanvas" width="1330px" height="600px">
-		</canvas>
-		<br><br>
 		<div id = "information">
 			email:guoyun0221@gmail.com<br>
 			<a href = "https://github.com/SadKetchup" target = "_blank">GitHub:https://github.com/SadKetchup</a>	
