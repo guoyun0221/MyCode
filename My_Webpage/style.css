@@ -1,0 +1,19 @@
+#information{
+    width:100%;
+    position:fixed; 
+    bottom:0px; 
+    left:0px;
+    text-align:center;
+    font-size: 150%;
+    color: black;
+    font-family: consolas;
+}
+#background{
+    background-image: url(background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+a{
+    color: black;/*default color is blue, I don't know why*/
+}
