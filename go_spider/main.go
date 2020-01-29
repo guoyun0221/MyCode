@@ -13,6 +13,7 @@ func main() {
 	fmt.Println("C: Get 1000 random users' information of Bilibili, including id, name, sex, level and picture")
 	fmt.Println("D: Get questions from zhihu(don't know how to pass zhihu's security verification, so it doesn't work sometimes)")
 	fmt.Println("E: Get pictures from baidu")
+	fmt.Println("F: Get top 250 books from Douban")
 
 	var s string
 	fmt.Scanln(&s)
@@ -27,6 +28,8 @@ func main() {
 		spiders.Zhihu_question()
 	} else if s == "E" || s == "e" {
 		spiders.Baidu_pic()
+	} else if s == "F" || s == "f" {
+		spiders.Douban_books()
 	}
 
 }
