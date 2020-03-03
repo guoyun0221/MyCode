@@ -15,6 +15,7 @@ func main() {
 	fmt.Println("E: Get pictures from baidu")
 	fmt.Println("F: Get top 250 books from Douban")
 	fmt.Println("G: Fans growth rate of Bilibili up")
+	fmt.Println("H: Bilibili videos information")
 
 	var s string
 	fmt.Scanln(&s)
@@ -33,6 +34,8 @@ func main() {
 		spiders.Douban_books()
 	} else if s == "G" || s == "g" {
 		spiders.Fans_Growth()
+	}else if s == "H" ||s =="h"{
+		spiders.Bilibili_videos_info()
 	}
 
 }
