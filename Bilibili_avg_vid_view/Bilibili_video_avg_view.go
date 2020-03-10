@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const Sample_Size = 10000
+const Sample_Size = 10
 
 type Video struct {
 	av, view, like, coin, favorite, danmaku, reply int
@@ -27,9 +27,10 @@ func main() {
 	buf := bufio.NewReader(f)
 
 	for i := 0; i < Sample_Size; i++ {
-		vid = get_one_video(buf)     //read a piece of info
-		videos = insert(videos, vid) //insert it to the slice in order by views
+		vid = get_one_video(buf)                       //read a piece of info
+		videos = insert(videos, 0, len(videos)-1, vid) //insert it to the slice in order by views
 	}
+	fmt.Println(videos)
 	calculate(videos)
 }
 
@@ -50,17 +51,18 @@ func get_one_video(buf *bufio.Reader) Video {
 	return vid
 }
 
-func insert(vids []Video, vid Video) []Video {
-	var i int
-	for i = 0; i < len(vids); i++ {
-		if vids[i].view >= vid.view {
-			break
+func insert(vids []Video, L, R int, vid Video) []Video {
+	for L <= R {
+		if vids[(L+R)/2].view < vid.view {
+			L = (L+R)/2 + 1
+		} else {
+			R = (L+R)/2 - 1
 		}
 	}
 	var t []Video
-	t = append(t, vids[:i]...)
+	t = append(t, vids[:L]...)
 	t = append(t, vid)
-	vids = append(t, vids[i:]...)
+	vids = append(t, vids[L:]...)
 	return vids
 }
 
