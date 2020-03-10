@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const Sample_Size = 10
+const Sample_Size = 10000
 
 type Video struct {
 	av, view, like, coin, favorite, danmaku, reply int
@@ -30,7 +30,6 @@ func main() {
 		vid = get_one_video(buf)                       //read a piece of info
 		videos = insert(videos, 0, len(videos)-1, vid) //insert it to the slice in order by views
 	}
-	fmt.Println(videos)
 	calculate(videos)
 }
 
