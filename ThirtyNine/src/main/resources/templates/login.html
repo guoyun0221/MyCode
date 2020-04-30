@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThirtyNine</title>
+    <style>
+        #loginForm{
+            font-size:200%;
+            text-align:center
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm">
+        <h1>Log in/Log up</h1>
+        <form action="/login" method="post">
+            name:<input type="text" name="name"><br>
+            password:<input type="password" name="password"><br>
+            <input type="submit" value="submit"/>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://thymeleaf.org">
+    <title>ThirtyNine</title>
+</head>
+<body>
+    <h1>ChatRoom</h1>
+    <hr/>
+    <br>
+    <form action="/speak" method="post">
+        <input type="text" name="words" placeholder="Say something"><br>
+        <input type="submit" value="send">
+    </form>
+    <br>
+    <hr/>
+    <div th:each="speech:${speeches}">
+        <br>
+        [[${speech.words}]]
+        <br><br>
+        <hr/>
+    </div>
+</body>
+</html>
