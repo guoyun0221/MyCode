@@ -6,18 +6,20 @@
 </head>
 <body>
     <h1>ChatRoom</h1>
-    <hr/>
     <br>
     <form action="/speak" method="post">
-        <input type="text" name="words" placeholder="Say something"><br>
+        <textarea rows="2" cols="100" placeholder="Say something here" name="words"></textarea>
         <input type="submit" value="send">
     </form>
     <br>
     <hr/>
     <div th:each="speech:${speeches}">
-        <br>
-        [[${speech.words}]]
+        <a th:text="${speech.speaker}">username</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        [[${speech.send_time}]]
         <br><br>
+        [[${speech.words}]]
+        <br><br><br>
         <hr/>
     </div>
 </body>

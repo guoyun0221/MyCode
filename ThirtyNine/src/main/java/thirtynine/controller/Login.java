@@ -29,6 +29,7 @@ public class Login {
     @PostMapping("/login")
     public String LoginJudge(User user, HttpSession session){
         if(userService.login(user)){
+            user = userService.getByName(user.getName());//give it user info
             session.setAttribute("user",user);//save user info in session
             return "redirect:ChatRoom";
         }else{
