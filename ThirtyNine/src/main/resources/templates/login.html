@@ -14,10 +14,11 @@
     <br><br><br><br><br><br>
     <div id="loginForm">
         <h1>Log in/Log up</h1>
+        <h5 th:text="${fail}" style="color:red"></h5><!--Login failure prompt-->
         <form action="/login" method="post">
-            username:<input type="text" name="name"><br>
-            password:<input type="password" name="password"><br>
-            <input type="submit" value="submit"/>
+            username:<input type="text" name="name" style="font-size:60%"><br>
+            password:<input type="password" name="password" style="font-size:60%"><br>
+            <input type="submit" value="submit" style="font-size:70%"/>
         </form>
     </div>
 </body>

@@ -8,6 +8,7 @@ import thirtynine.pojo.User;
 import thirtynine.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 public class Login {
@@ -27,12 +28,13 @@ public class Login {
      * if login successfully
      */
     @PostMapping("/login")
-    public String LoginJudge(User user, HttpSession session){
+    public String LoginJudge(User user, HttpSession session, Map<String,Object> map){
         if(userService.login(user)){
             user = userService.getByName(user.getName());//give it user info
             session.setAttribute("user",user);//save user info in session
             return "redirect:ChatRoom";
         }else{
+            map.put("fail","This username has been registered and your password is wrong");
             return "login";
         }
     }

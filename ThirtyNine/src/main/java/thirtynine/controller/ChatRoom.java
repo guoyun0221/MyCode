@@ -20,14 +20,17 @@ public class ChatRoom {
     private SpeechService speechService;
 
     @RequestMapping({"/","/ChatRoom"})
-    public String toChatRoom(Model model){
+    public String toChatRoom(Model model,HttpSession session){
         List<Speech> speeches =speechService.findAll();
         for(Speech speech: speeches){
+            //to output multiple spaces and newlines
+            speech.setWords(speech.getWords().replaceAll(" ","&nbsp;").replaceAll("\r","<br/>"));
             //to get username in thymeleaf
             if(speech.getUser()!=null){
                 speech.setSpeaker(speech.getUser().getName());
             }
         }
+        model.addAttribute("username",((User)session.getAttribute("user")).getName());
         model.addAttribute("speeches",speeches);
         return "ChatRoom";
     }

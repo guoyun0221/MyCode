@@ -5,6 +5,7 @@
     <title>ThirtyNine</title>
 </head>
 <body>
+    <a th:href="@{/user/edit}" style="float:right;text-align:right;font-size:150%">[[${username}]]</a>
     <h1>ChatRoom</h1>
     <br>
     <form action="/speak" method="post">
@@ -14,12 +15,11 @@
     <br>
     <hr/>
     <div th:each="speech:${speeches}">
-        <a th:text="${speech.speaker}">username</a>
+        <a th:text="${speech.speaker}" th:href="@{/user/info(username=${speech.speaker})}">username</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         [[${speech.send_time}]]
-        <br><br>
-        [[${speech.words}]]
-        <br><br><br>
+        <p th:utext="${speech.words}">words</p><!--don't escape the content of text-->
+        <br>
         <hr/>
     </div>
 </body>
