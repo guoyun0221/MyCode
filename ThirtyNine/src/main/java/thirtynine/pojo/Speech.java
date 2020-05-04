@@ -57,7 +57,7 @@ public class Speech {
         return "Speech{" +
                 "id=" + id +
                 ", user=" + user +
-                ", speak='" + speaker + '\'' +
+                ", speaker='" + speaker + '\'' +
                 ", words='" + words + '\'' +
                 ", send_time='" + send_time + '\'' +
                 '}';

@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8" xmlns:th="http://thymeleaf.org">
+    <meta charset="UTF-8">
     <title>ThirtyNine</title>
 </head>
 <body>
-    <a th:href="@{/user/edit}" style="float:right;text-align:right;font-size:150%">[[${username}]]</a>
-    <h1>ChatRoom</h1>
+    <a th:href="@{/user/edit}" style="float:right;text-align:right;font-size:150%;color:black">[[${username}]]</a>
+    <a th:href="@{/ChatRoom}" style="font-size:300%;color:black">ChatRoom</a>
+    <br><br>
+    <form action="/search" method="post">
+        <input type="text" name="keyword">
+        <input type="submit" value="search">
+    </form>
     <br>
     <form action="/speak" method="post">
         <textarea rows="2" cols="100" placeholder="Say something here" name="words"></textarea>
-        <input type="submit" value="send">
+        <input type="submit" value="send"/>
     </form>
     <br>
     <hr/>
     <div th:each="speech:${speeches}">
-        <a th:text="${speech.speaker}" th:href="@{/user/info(username=${speech.speaker})}">username</a>
+        <a th:text="${speech.speaker}" th:href="@{/user/info(username=${speech.speaker})}" style="font-size:120%;color:black">username</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         [[${speech.send_time}]]
         <p th:utext="${speech.words}">words</p><!--don't escape the content of text-->

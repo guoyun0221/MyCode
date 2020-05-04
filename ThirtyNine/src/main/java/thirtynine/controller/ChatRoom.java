@@ -42,4 +42,18 @@ public class ChatRoom {
         speechService.insertSpeech(speech);
         return "redirect:ChatRoom";
     }
+
+    @PostMapping("/search")
+    public String search(String keyword,Model model,HttpSession session){
+        List<Speech> speeches = speechService.findByKeyword(keyword);
+        for(Speech speech: speeches){
+            speech.setWords(speech.getWords().replaceAll(" ","&nbsp;").replaceAll("\r","<br/>"));
+            if(speech.getUser()!=null){
+                speech.setSpeaker(speech.getUser().getName());
+            }
+        }
+        model.addAttribute("username",((User)session.getAttribute("user")).getName());
+        model.addAttribute("speeches",speeches);
+        return "ChatRoom";
+    }
 }

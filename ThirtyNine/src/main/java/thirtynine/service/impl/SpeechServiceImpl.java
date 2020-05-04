@@ -15,6 +15,12 @@ public class SpeechServiceImpl implements SpeechService {
     private SpeechDao speechDao;
 
     @Override
+    public List<Speech> findByKeyword(String keyword) {
+        keyword='%'+keyword+'%';
+        return speechDao.findByKeyword(keyword);
+    }
+
+    @Override
     public void insertSpeech(Speech speech) {
         speechDao.insertSpeech(speech);
     }

@@ -12,4 +12,6 @@ public interface SpeechService {
 
     List<Speech> findAll();
 
+    List<Speech> findByKeyword(String keyword);
+
 }

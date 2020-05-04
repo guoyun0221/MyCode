@@ -1,6 +1,5 @@
 package thirtynine.service;
 
-import org.springframework.stereotype.Service;
 import thirtynine.pojo.User;
 
 import java.util.List;
