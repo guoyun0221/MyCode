@@ -12,6 +12,8 @@ import java.util.List;
 @Service("SpeechService")
 public class SpeechServiceImpl implements SpeechService {
 
+    private final int size =39;
+
     @Autowired
     private SpeechDao speechDao;
 
@@ -29,6 +31,30 @@ public class SpeechServiceImpl implements SpeechService {
     @Override
     public List<Speech> findAll() {
         List<Speech> speeches =speechDao.findAll();
+        for(Speech speech: speeches){
+            if(speech.getWords()!=null){
+                //escape some characters
+                speech.setWords(EscapeCharacters.escape(speech.getWords()));
+            }
+            if(speech.getUser()!=null){
+                //to get username in thymeleaf
+                speech.setSpeaker(speech.getUser().getName());
+            }
+        }
+        return speeches;
+    }
+
+    @Override
+    public Integer getMaxPage() {
+        Integer count = speechDao.countSpeeches();
+        Integer maxPage = count/size+1;
+        return maxPage;
+    }
+
+    @Override
+    public List<Speech> findByPage(Integer page) {
+        int start =(page-1)*size;
+        List<Speech> speeches = speechDao.findByPage(start,size);
         for(Speech speech: speeches){
             if(speech.getWords()!=null){
                 //escape some characters
@@ -64,5 +90,4 @@ public class SpeechServiceImpl implements SpeechService {
     public void deleteSpeech(int id) {
         speechDao.deleteSpeech(id);
     }
-
 }

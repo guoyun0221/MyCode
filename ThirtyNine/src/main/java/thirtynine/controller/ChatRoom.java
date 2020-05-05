@@ -19,10 +19,16 @@ public class ChatRoom {
     private SpeechService speechService;
 
     @RequestMapping({"/","/ChatRoom"})
-    public String toChatRoom(Model model,HttpSession session){
-        List<Speech> speeches =speechService.findAll();
+    public String toChatRoom(Model model,HttpSession session,Integer page){
+        if(page==null){
+            page=1;
+        }
+        Integer maxPage = speechService.getMaxPage();
+        List<Speech> speeches = speechService.findByPage(page);
         model.addAttribute("username",((User)session.getAttribute("user")).getName());
         model.addAttribute("speeches",speeches);
+        model.addAttribute("currentPage",page);
+        model.addAttribute("maxPage",maxPage);
         return "ChatRoom";
     }
 

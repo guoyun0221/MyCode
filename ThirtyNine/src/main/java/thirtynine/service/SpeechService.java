@@ -12,7 +12,11 @@ public interface SpeechService {
 
     List<Speech> findAll();
 
+    List<Speech> findByPage(Integer page);
+
     List<Speech> findByKeyword(String keyword);
 
     Speech findById(int id);
+
+    Integer getMaxPage();
 }
