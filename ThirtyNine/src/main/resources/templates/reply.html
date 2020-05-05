@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThirtyNine</title>
+</head>
+<body>
+    <br><br><br><br><br><br><br><br><br>
+    <form action="/speak" method="post" style="text-align:center">
+        <textarea name="words" cols="100" rows="10" style="font-size:120%">@[[${speech.speaker}]]:[[${speech.words}]]
+        -----------------------------------------------------------------------------------------
+        </textarea><br>
+        <input type="submit" value="submit" style="font-size:120%"/>
+    </form>
+</body>
+</html>

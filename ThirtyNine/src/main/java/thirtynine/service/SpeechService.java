@@ -14,4 +14,5 @@ public interface SpeechService {
 
     List<Speech> findByKeyword(String keyword);
 
+    Speech findById(int id);
 }

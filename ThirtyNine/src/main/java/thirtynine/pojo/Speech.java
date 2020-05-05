@@ -6,6 +6,16 @@ import java.sql.Date;
 @Component
 public class Speech {
     private int id;
+    private int user_id;
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
     private User user;//identify speaker
     private String speaker;//it is just user.name, but ${speech.user.name} lead a exception
     //I don't know why, so I have to use this.

@@ -8,6 +8,9 @@ import java.util.List;
 @Mapper
 public interface SpeechDao {
 
+    @Select("select * from speeches where id = #{id}")
+    Speech findById(int id);
+
     @Select("select * from speeches order by id desc")
     @Results({
         @Result(property = "user", column = "user_id", one =@One(select ="thirtynine.mapper.UserDao.getById") )

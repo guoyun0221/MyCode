@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import thirtynine.pojo.User;
 import thirtynine.service.UserService;
+import thirtynine.utils.EscapeCharacters;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +22,7 @@ public class UserHome {
     public String show(@RequestParam("username") String username, Model model){
         User user= userService.getByName(username);
         if(user.getDescription()!=null){
-            user.setDescription(user.getDescription().replaceAll(" ","&nbsp;").replaceAll("\r","<br/>"));
+            user.setDescription(EscapeCharacters.escape(user.getDescription()));
         }
         model.addAttribute("user",user);
         return "user/info";
