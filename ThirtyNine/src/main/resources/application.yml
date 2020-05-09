@@ -6,5 +6,8 @@ spring:
     username: root
     password: 123
     type: com.alibaba.druid.pool.DruidDataSource
-
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      # actually allowed max size is 5MB.

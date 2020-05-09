@@ -6,11 +6,13 @@
 </head>
 <body>
     <br><br><br><br><br><br><br><br><br>
-    <form action="/speak" method="post" style="text-align:center">
-        <textarea name="words" cols="100" rows="10" style="font-size:120%">@[[${speech.speaker}]]:[[${speech.words}]]
-        -----------------------------------------------------------------------------------------
+    <form action="/speak" method="post" style="text-align:center" enctype="multipart/form-data">
+        <textarea name="words" cols="100" rows="10" style="font-size:120%">@[[${speech.speaker}]]&nbsp;&nbsp;&nbsp;[[${speech.id}]]
+        -------------------------------------------------------------
         </textarea><br>
-        <input type="submit" value="submit" style="font-size:120%"/>
+        Upload Image(maxsize < 5MB):<input type="file" name="file"/><br>
+        <input type="hidden" th:value="${speech.id}" name="reply_to">
+        <input type="submit" value="send" style="font-size:120%"/>
     </form>
 </body>
 </html>

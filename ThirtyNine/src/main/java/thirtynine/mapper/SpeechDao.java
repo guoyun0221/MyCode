@@ -32,7 +32,7 @@ public interface SpeechDao {
     @Select("select count(*) from speeches")
     Integer countSpeeches();
 
-    @Insert("insert into speeches(user_id,words,send_time) values(#{user.id},#{words},#{send_time})")
+    @Insert("insert into speeches(user_id,words,send_time,img_name,reply_to) values(#{user.id},#{words},#{send_time},#{img_name},#{reply_to})")
     void insertSpeech(Speech speech);
 
     @Delete("delete from speeches where id =#{id}")

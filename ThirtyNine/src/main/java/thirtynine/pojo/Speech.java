@@ -7,20 +7,43 @@ import java.sql.Date;
 public class Speech {
     private int id;
     private int user_id;
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
     private User user;//identify speaker
-    private String speaker;//it is just user.name, but ${speech.user.name} lead a exception
+    private String speaker;//it is just user.name, but ${speech.user.name} leads a exception
     //I don't know why, so I have to use this.
     private String words;
     private String send_time;
+    private String img_name;//uploaded img name
+    private Integer reply_to;
+
+    @Override
+    public String toString() {
+        return "Speech{" +
+                "id=" + id +
+                ", user_id=" + user_id +
+                ", user=" + user +
+                ", speaker='" + speaker + '\'' +
+                ", words='" + words + '\'' +
+                ", send_time='" + send_time + '\'' +
+                ", img_name='" + img_name + '\'' +
+                ", reply_to=" + reply_to +
+                '}';
+    }
+
+    public Integer getReply_to() {
+        return reply_to;
+    }
+
+    public void setReply_to(Integer reply_to) {
+        this.reply_to = reply_to;
+    }
+
+    public String getImg_name() {
+        return img_name;
+    }
+
+    public void setImg_name(String img_name) {
+        this.img_name = img_name;
+    }
 
     public int getId() {
         return id;
@@ -62,14 +85,12 @@ public class Speech {
         this.send_time = send_time;
     }
 
-    @Override
-    public String toString() {
-        return "Speech{" +
-                "id=" + id +
-                ", user=" + user +
-                ", speaker='" + speaker + '\'' +
-                ", words='" + words + '\'' +
-                ", send_time='" + send_time + '\'' +
-                '}';
+    public int getUser_id() {
+        return user_id;
     }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
 }

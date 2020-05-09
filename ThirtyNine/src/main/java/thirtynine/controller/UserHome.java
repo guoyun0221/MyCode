@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import thirtynine.pojo.User;
 import thirtynine.service.UserService;
 import thirtynine.utils.EscapeCharacters;
-
 import javax.servlet.http.HttpSession;
 
 @Controller
