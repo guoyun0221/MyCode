@@ -14,6 +14,7 @@ public class Speech {
     private String send_time;
     private String img_name;//uploaded img name
     private Integer reply_to;
+    private boolean at_top;
 
     @Override
     public String toString() {
@@ -26,7 +27,16 @@ public class Speech {
                 ", send_time='" + send_time + '\'' +
                 ", img_name='" + img_name + '\'' +
                 ", reply_to=" + reply_to +
+                ", at_top=" + at_top +
                 '}';
+    }
+
+    public boolean isAt_top() {
+        return at_top;
+    }
+
+    public void setAt_top(boolean at_top) {
+        this.at_top = at_top;
     }
 
     public Integer getReply_to() {

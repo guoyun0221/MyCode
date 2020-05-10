@@ -8,6 +8,7 @@
     <br><br><br><br><br><br><br><br><br>
     <form action="/speak" method="post" style="text-align:center" enctype="multipart/form-data">
         <textarea name="words" cols="100" rows="10" style="font-size:120%">@[[${speech.speaker}]]&nbsp;&nbsp;&nbsp;[[${speech.id}]]
+        [[${speech.words}]]
         -------------------------------------------------------------
         </textarea><br>
         Upload Image(maxsize < 5MB):<input type="file" name="file"/><br>

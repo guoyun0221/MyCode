@@ -19,4 +19,10 @@ public interface SpeechService {
     Speech findById(int id);
 
     Integer getMaxPage();
+
+    void topSpeech(int id);
+
+    Speech findTop();
+
+    void cancelTop();
 }

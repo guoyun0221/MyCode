@@ -27,18 +27,15 @@ public class ChatRoom {
     private SpeechService speechService;
 
     @RequestMapping({"/","/ChatRoom"})
-    public String toChatRoom(Model model, HttpSession session, Integer page,Map<String,Speech> reply){
+    public String toChatRoom(Model model, HttpSession session, Integer page){
         if(page==null){
             page=1;
         }
         Integer maxPage = speechService.getMaxPage();
+        Speech topSpeech = speechService.findTop();
         List<Speech> speeches = speechService.findByPage(page);
-        for(Speech speech : speeches){
-            if(speech.getReply_to()!=null){
-                reply.put(""+speech.getReply_to(),speechService.findById(speech.getReply_to()));
-            }
-        }
         model.addAttribute("username",((User)session.getAttribute("user")).getName());
+        model.addAttribute("top",topSpeech);
         model.addAttribute("speeches",speeches);
         model.addAttribute("currentPage",page);
         model.addAttribute("maxPage",maxPage);
@@ -46,7 +43,7 @@ public class ChatRoom {
     }
 
     @PostMapping("/speak")
-    public String speak(Speech speech,HttpSession session,@RequestParam("file") MultipartFile file,Model model){
+    public String speak(Speech speech,HttpSession session,@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()){//upload file
             try {
                 //if it's a image
@@ -65,7 +62,7 @@ public class ChatRoom {
             //set path to store files
             String path =System.getProperty("user.dir")+"/src/main/resources/static/uploadedFiles/";
             // path: On my linux server
-            //String path ="/root/uploadedFiles/";
+//            String path ="/root/ThirtyNine/static/uploadedFiles/";
             File f = new File(path);
             if(!f.exists()){
                 f.mkdir();

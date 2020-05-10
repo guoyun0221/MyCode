@@ -11,3 +11,11 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
       # actually allowed max size is 5MB.
+logging:
+  level:
+    thirtynine: info
+  file:
+    name: C:\Users\GuoYun\Desktop\ThirtyNine\TheLog.log
+#on my linux server
+#  file:
+#    name: /root/ThirtyNine/TheLog.log

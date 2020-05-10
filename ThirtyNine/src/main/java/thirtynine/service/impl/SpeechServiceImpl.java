@@ -2,6 +2,7 @@ package thirtynine.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import thirtynine.mapper.SpeechDao;
 import thirtynine.mapper.UserDao;
 import thirtynine.pojo.Speech;
@@ -19,6 +20,23 @@ public class SpeechServiceImpl implements SpeechService {
 
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public void cancelTop() {
+        speechDao.cancelTop();
+    }
+
+    @Override
+    public Speech findTop() {
+        List<Speech> speeches = speechDao.findTop();
+        if (speeches.isEmpty()){
+            return null;
+        }
+        speeches.get(0).setWords(EscapeCharacters.escape(speeches.get(0).getWords()));
+        speeches.get(0).setUser(userDao.getById(speeches.get(0).getUser_id()));
+        speeches.get(0).setSpeaker(speeches.get(0).getUser().getName());
+        return speeches.get(0);
+    }
 
     @Override
     public Speech findById(int id) {
@@ -49,6 +67,13 @@ public class SpeechServiceImpl implements SpeechService {
         Integer count = speechDao.countSpeeches();
         Integer maxPage = count/size+1;
         return maxPage;
+    }
+
+    @Override
+    @Transactional
+    public void topSpeech(int id) {
+        speechDao.cancelTop();
+        speechDao.topSpeech(id);
     }
 
     @Override

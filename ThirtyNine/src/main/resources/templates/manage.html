@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThirtyNine</title>
+</head>
+<body>
+    <div style="color:red" th:if="${top}">
+        *TOP*
+        <p th:utext="${top.words}">words</p><!--don't escape the content of text-->
+        <a th:href="@{@{'/uploadedFiles/'+${top.img_name}}}" th:if="${top.img_name}">
+            <img th:src="@{'/uploadedFiles/'+${top.img_name}}" width="20%" th:if="${top.img_name}">
+        </a>
+        <br>
+        <a th:href="@{/manage/cancelTop}" ><button>cancelTop</button></a>
+        <br>
+        <hr/>
+    </div>
+    <div th:each="speech:${speeches}">
+        [[${speech.id}]]
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a th:text="${speech.speaker}" th:href="@{/user/info(username=${speech.speaker})}" style="font-size:120%;color:black">username</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        [[${speech.send_time}]]
+        <p th:utext="${speech.words}">words</p><!--don't escape the content of text-->
+        <a th:href="@{@{'/uploadedFiles/'+${speech.img_name}}}" th:if="${speech.img_name}">
+            <img th:src="@{'/uploadedFiles/'+${speech.img_name}}" width="20%" th:if="${speech.img_name}">
+        </a>
+        <br>
+        <a th:href="@{/manage/delete(id=${speech.id})}"><button >Delete</button></a>
+        <a th:href="@{/manage/top(id=${speech.id})}"><button>Top</button></a>
+        <br>
+        <hr/>
+    </div>
+    <div th:if="${currentPage}" style="text-align:center">
+        <!--    I didn't use paging when searching by keyword,so there should be a 'if' here-->
+        <a th:href="@{/manage(page=${currentPage}-1)}" class="page" th:if="${currentPage!=1}">Previous</a>
+        <span th:each="i:${#numbers.sequence(1,maxPage)}">
+                <a th:href="@{/manage(page=${i})}" class="page">[[${i}]]</a>
+            </span>
+        <a th:href="@{/manage(page=${currentPage}+1)}" class="page" th:if="${currentPage!=maxPage}">Next</a>
+    </div>
+</body>
+</html>

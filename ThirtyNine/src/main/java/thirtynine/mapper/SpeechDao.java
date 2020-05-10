@@ -3,6 +3,7 @@ package thirtynine.mapper;
 import org.apache.ibatis.annotations.*;
 import thirtynine.pojo.Speech;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Mapper
@@ -37,4 +38,13 @@ public interface SpeechDao {
 
     @Delete("delete from speeches where id =#{id}")
     void deleteSpeech(int id);
+
+    @Update("update speeches set at_top = true where id =#{id}")
+    void topSpeech(int id);
+
+    @Update("update speeches set at_top = false")
+    void cancelTop();
+
+    @Select("select * from speeches where at_top is true")
+    List<Speech> findTop();
 }
