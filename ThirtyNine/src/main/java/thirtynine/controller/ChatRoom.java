@@ -49,12 +49,12 @@ public class ChatRoom {
                 //if it's a image
                 BufferedImage bi = ImageIO.read(file.getInputStream());
                 if(bi==null){
-                    session.setAttribute("wrong","NotImage");
-                    return "redirect:wrong";
+                    session.setAttribute("message","NotImage");
+                    return "redirect:error";
                 }
                 if(file.getSize()>5*1024*1024){
-                    session.setAttribute("wrong","ImageTooLarge");
-                    return "redirect:wrong";
+                    session.setAttribute("message","ImageTooLarge");
+                    return "redirect:error";
                 }
             } catch (IOException e) {
                 e.printStackTrace();

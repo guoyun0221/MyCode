@@ -31,6 +31,6 @@ public class MyMVCConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/wrong").setViewName("wrong");
+        registry.addViewController("/error").setViewName("error");
     }
 }

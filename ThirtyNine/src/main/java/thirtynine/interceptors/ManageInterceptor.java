@@ -12,8 +12,8 @@ public class ManageInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User)request.getSession().getAttribute("user");
         if(!user.getName().equals("root")){
-            request.getSession().setAttribute("wrong","NoPermission");
-            request.getRequestDispatcher("/wrong").forward(request,response);
+            request.getSession().setAttribute("message","NoPermission");
+            request.getRequestDispatcher("/error").forward(request,response);
             return false;
         }
         return true;

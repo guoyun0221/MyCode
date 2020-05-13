@@ -57,11 +57,13 @@
     </div>
     <div th:if="${currentPage}" style="text-align:center">
 <!--    I didn't use paging when searching by keyword,so there should be a 'if' here-->
+        <a th:href="@{/ChatRoom(page=1)}" class="page" >first</a>
         <a th:href="@{/ChatRoom(page=${currentPage}-1)}" class="page" th:if="${currentPage!=1}">Previous</a>
         <span th:each="i:${#numbers.sequence(1,maxPage)}">
-            <a th:href="@{/ChatRoom(page=${i})}" class="page">[[${i}]]</a>
+            <a th:href="@{/ChatRoom(page=${i})}" class="page" th:if="(${currentPage-i} < 4) and (${currentPage-i} > -4)">[[${i}]]</a>
         </span>
         <a th:href="@{/ChatRoom(page=${currentPage}+1)}" class="page" th:if="${currentPage!=maxPage}">Next</a>
+        <a th:href="@{/ChatRoom(page=${maxPage})}" class="page" >last</a>
     </div>
 </body>
 </html>

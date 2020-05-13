@@ -26,8 +26,8 @@ public class BlockedIPInterceptor implements HandlerInterceptor {
         String userIP= request.getRemoteAddr();
         for(Blocked_IP ip:IPs){
             if(userIP.equals(ip.getIP())){
-                request.getSession().setAttribute("wrong","BlockedIP");
-                request.getRequestDispatcher("/wrong").forward(request,response);
+                request.getSession().setAttribute("message","BlockedIP");
+                request.getRequestDispatcher("/error").forward(request,response);
                 return false;
             }
         }

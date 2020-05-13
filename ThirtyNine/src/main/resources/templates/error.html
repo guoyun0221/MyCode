@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ThirtyNine</title>
+</head>
+<body>
+<br><br><br><br><br><br>
+<div style="text-align:center;font-size:200%">
+    <h1 >Something went wrong</h1>
+    <h3 th:if="${session.message}=='NotImage'">The uploaded file is not a image</h3>
+    <h3 th:if="${session.message}=='ImageTooLarge'">The Image is too large</h3>
+    <h3 th:if="${session.message}=='NoPermission'">You don't have permission to access this page</h3>
+    <h3 th:if="${session.message}=='BlockedIP'">Your IP address has been blocked, fuck off</h3>
+</div>
+</body>
+</html>
