@@ -82,6 +82,7 @@ public class ChatRoom {
         speech.setUser(((User)session.getAttribute("user")));
         speech.setSend_time(DateFormat.SqlDate());
         speechService.insertSpeech(speech);
+        WebSocketServer.sendMessage();
         return "redirect:ChatRoom";
     }
 
