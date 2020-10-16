@@ -3,7 +3,7 @@
 + + CREATE TABLE \`blocked_ip\` (
   \`IP\` varchar(20) NOT NULL,
   PRIMARY KEY (\`IP\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 + + CREATE TABLE \`speeches\` (
   \`id\` int NOT NULL AUTO_INCREMENT,
@@ -14,7 +14,7 @@
   \`reply_to\` int DEFAULT NULL,
   \`at_top\` tinyint(1) DEFAULT '0',
   PRIMARY KEY (\`id\`)
-) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8;
 
 + + CREATE TABLE \`users\` (
   \`id\` int NOT NULL AUTO_INCREMENT,
@@ -24,4 +24,4 @@
   \`experience\` int unsigned DEFAULT NULL,
   \`description\` text,
   PRIMARY KEY (\`id\`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
