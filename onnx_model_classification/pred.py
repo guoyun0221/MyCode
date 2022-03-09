@@ -51,7 +51,7 @@ def main():
     res = onnx_ret[0] 
     idx = np.argmax(res)
 
-    # get lin from 
+    # get result by index
     i = 0
     for line in open("imageNet1000.txt"):
         if (i == idx):
