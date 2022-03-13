@@ -1,6 +1,6 @@
+import random
 import sys
 import cv2 as cv
-import numpy as np
 
 def showInfo(width: int, height: int, fps: float, fourcc: str, suffix: str):
     ''' display video information '''
@@ -45,6 +45,33 @@ def processByPerFrame(capture: cv.VideoCapture, writer: cv.VideoWriter, operatio
         # write output
         writer.write(frame)
 
+def randomChangeColor(capture: cv.VideoCapture, writer: cv.VideoWriter, fps: float):
+    ''' random change color in random duration, by channel level '''
+    maxDuration = int(fps) * 2
+    # some random parameters
+    duration = random.randint(0, maxDuration)
+    channel = random.randint(0, 2)
+    value = random.randint(0, 255)
+    count = 1
+    while(capture.isOpened()):
+        ret, frame = capture.read()
+        if ret == False: 
+            break
+
+        if count > duration:
+            # generate another pattern
+            duration = random.randint(0, maxDuration)
+            channel = random.randint(0, 2)
+            value = random.randint(0, 255)
+            # reset counter
+            count = 1
+        
+        # process current frame by pattern 
+        frame[:, :, channel] = value
+        writer.write(frame)
+        # update counter
+        count += 1
+
 def main():
     # usage 
     if len(sys.argv) < 3 :
@@ -56,7 +83,8 @@ def main():
         '\trotate\t-Rotate the video 90 degrees clockwise\n'
         '\tresize\t-resize the video. another two parameters are required:\n'
         '\t\tthe 3rd parameter to specific width, 4th to specific height\n'
-        '\tgray\t-turn the color video gray')
+        '\tgray\t-turn the color video gray\n'
+        '\trandclr\t-random change color in random duration')
         sys.exit()
     
     # get arguments
@@ -93,6 +121,8 @@ def main():
     # process operation
     if operation == "flip" or operation == "rotate" or operation == "resize" or operation == "gray":
         processByPerFrame(capture, writer, operation)
+    elif operation == "randclr":
+        randomChangeColor(capture, writer, fps)
     
     # release resource
     capture.release()
