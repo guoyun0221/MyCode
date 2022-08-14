@@ -103,7 +103,8 @@ public class SimpleGUI {
      */
     public void writeOutput(String s){
         this.outputText.append(s);
-        this.outputText.paintImmediately(this.outputText.getBounds());
+//        this.outputText.paintImmediately(this.outputText.getBounds());
+        jf.repaint();
     }
 
     private void createTitleLabel(){
