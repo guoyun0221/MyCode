@@ -1,21 +1,20 @@
 import sys
 from tkinter import *
 from tkinter import scrolledtext
-from typing import List
+from typing import Callable, List
 
 
 class SimpleGUI:
 
-    def __init__(self, title: str, input_prompts: List[str], recall_func, button_text: str = "submit", basic_size: int = 10) -> None:
+    def __init__(self, title: str, input_prompts: List[str], callback_func: Callable[[List[str]], None], button_text: str = "submit", basic_size: int = 10) -> None:
         '''To create simpleGui.\n
         Args: \n
             tille.  title of this window to be shown. \n
             input_prompts.  list of string prompts for user inputs.
                             each element in the list corresponds to an input \n
-            recall_func.    A func to be called. when user click submit button, 
+            callback_func.    A func to be called. when user click submit button, 
                             the function will be called. this func must require one
-                            string list argument to get user inputs. 
-                            so it's like: submit_func(inputs: List[str]) -> None. \n
+                            string list argument to get user inputs. \n
             button_text.    text of submit button. default is "submit".\n
             basic_size.     basic size for component. default is 10 '''
         # Parameters
@@ -23,7 +22,7 @@ class SimpleGUI:
         self.input_prompts = input_prompts
         self.button_text = button_text
         self.basic_size = basic_size
-        self.recall_func = recall_func
+        self.callback_func = callback_func
         # Gui window and weights
         self.window = None
         self.input_text_entry = []
@@ -88,6 +87,6 @@ class SimpleGUI:
         inputs = []
         for i in range(len(self.input_text_entry)):
             inputs.append(self.input_text_entry[i].get())
-        # call the recall function, and inputs is the argument
-        self.recall_func(inputs)
+        # call the callback function, and inputs is the argument
+        self.callback_func(inputs)
         
