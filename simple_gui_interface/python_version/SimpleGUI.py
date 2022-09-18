@@ -47,6 +47,7 @@ class SimpleGUI:
     def write_output(self, s: str):
         '''Write output to output text area'''
         self.output_text_area.insert(INSERT, s)
+        self.window.update()
 
     def __window_closed(self):
         # close the window 
