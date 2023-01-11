@@ -33,7 +33,7 @@ public class FilesMixer{
 //    	fm.mix("main(", "c");
     	
     	// separate
-    	fm.separate("MixedFile230110051126.txt");
+    	fm.separate("MixedFile.txt");
     }
 
     /**
@@ -53,9 +53,10 @@ public class FilesMixer{
     	this.extension = extension;
     	
     	try {
-    		Date date = new Date();
-    		SimpleDateFormat dateFormat= new SimpleDateFormat("yyMMddhhmmss");
-    		this.fileWriter = new FileWriter("MixedFile" + dateFormat.format(date) + ".txt");
+//    		Date date = new Date();
+//    		SimpleDateFormat dateFormat= new SimpleDateFormat("yyMMddhhmmss");
+//    		this.fileWriter = new FileWriter("MixedFile" + dateFormat.format(date) + ".txt");
+    		this.fileWriter = new FileWriter("MixedFile.txt");
             this.bw = new BufferedWriter(fileWriter);
     	} catch (IOException e) {
     		e.printStackTrace();
