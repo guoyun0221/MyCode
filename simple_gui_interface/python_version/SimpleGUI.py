@@ -49,6 +49,10 @@ class SimpleGUI:
         self.output_text_area.insert(INSERT, s)
         self.window.update()
 
+    def clean_output(self):
+        """clean output area""" 
+        self.output_text_area.delete('1.0', END)
+
     def __window_closed(self):
         # close the window 
         self.window.destroy()

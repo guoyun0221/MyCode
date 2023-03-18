@@ -2,6 +2,7 @@ from typing import List
 from SimpleGUI import SimpleGUI
 
 def submit_callback_func(inputs: List[str]):
+    gui.clean_output()
     for i in range(len(inputs)):
         gui.write_output("idx: " + str(i) + "; value: " + inputs[i] + "\n")
 
