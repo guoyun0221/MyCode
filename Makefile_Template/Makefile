@@ -15,7 +15,7 @@ TARGET_EXEC ?= $(shell basename $(CURDIR)).elf
 BUILD_DIR ?= ./build
 SRC_DIRS := .
 
-SRCS := $(shell find $(SRC_DIRS) -name *.c -or -name *.s -or -name *.S)
+SRCS := $(shell find $(SRC_DIRS) -name '*.c' -or -name '*.s' -or -name '*.S')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
