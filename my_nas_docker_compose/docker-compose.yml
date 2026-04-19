@@ -1,0 +1,176 @@
+version: "3.8"
+
+services:
+
+  ###################### gitea ######################
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - DB_TYPE=sqlite3
+      - GITEA__server__DOMAIN=192.168.0.103
+      - GITEA__server__ROOT_URL=http://192.168.0.103:3000/
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    volumes:
+      - /home/guoyun/docker/gitea/data:/data
+    ports:
+      - "3000:3000"   # Web port
+      - "222:22"      # SSH port
+      
+  ###################### jellyfin ######################
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "8096:8096"
+    volumes:
+      - /home/guoyun/docker/jellyfin/config:/config
+      - /home/guoyun/docker/jellyfin/cache:/cache
+      - /home/guoyun/media:/media
+    devices:
+      - /dev/dri:/dev/dri 
+    environment:
+      - TZ=Asia/Shanghai
+
+  ###################### homeassistant #######################
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    volumes:
+      - /home/guoyun/docker/home_assistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    network_mode: host
+
+  ###################### immich ##########################
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:release
+    volumes:
+      - /home/guoyun/docker/immich/data:/data
+      - /home/guoyun/docker/immich/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Shanghai
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=pros0927passwd
+      - DB_DATABASE_NAME=immich
+    ports:
+      - '2283:2283'
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    volumes:
+      - /home/guoyun/docker/immich/machine_learning_cache:/cache
+    restart: unless-stopped
+    healthcheck:
+      disable: false
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:8-bookworm@sha256:fea8b3e67b15729d4bb70589eb03367bab9ad1ee89c876f54327fc7c6e618571
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: unless-stopped
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:c44be5f2871c59362966d71eab4268170eb6f5653c0e6170184e72b38ffdf107
+    environment:
+      POSTGRES_PASSWORD: pros0927passwd
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      - /home/guoyun/docker/immich/postgres:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+
+  ##################### qbittorrent ######################
+  # qbittorrent:
+  #   image: lscr.io/linuxserver/qbittorrent:latest
+  #   container_name: qbittorrent
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Asia/Shanghai
+  #     - WEBUI_PORT=8080
+  #   volumes:
+  #     - /home/guoyun/docker/qbittorrent/config:/config
+  #     - /home/guoyun/downloads:/downloads
+  #   ports:
+  #     - 8080:8080                # Web UI
+  #     - 6881:6881                # TCP listen port
+  #     - 6881:6881/udp            # UDP (DHT/Peer)
+  #   restart: unless-stopped
+
+  ###################### filebrowser ######################
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    user: "1000:1000"
+    ports:
+      - "8081:80"
+    volumes:
+      - /home/guoyun/docker/file_browser/data:/srv
+      - /home/guoyun/docker/file_browser/database:/database
+      - /home/guoyun/docker/file_browser/settings.json:/config.json
+    restart: unless-stopped
+
+  ###################### calibre #######################
+  # calibre-web:
+  #   image: lscr.io/linuxserver/calibre-web:latest
+  #   container_name: calibre-web
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Asia/Shanghai
+  #     - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+  #     - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+  #   volumes:
+  #     - /home/guoyun/docker/calibre/calibre-web-config:/config
+  #     - /home/guoyun/docker/calibre/library:/books
+  #   ports:
+  #     - 8083:8083
+  #   restart: unless-stopped
+
+  ###################### navidrome ######################
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1000:1000
+    container_name: navidrome
+    ports:
+      - "4533:4533"
+    restart: unless-stopped
+    environment:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: ""
+      TZ: Asia/Shanghai
+    volumes:
+      - "/home/guoyun/docker/navidrome/data:/data"
+      - "/home/guoyun/media/music:/music:ro"
+      
+  ##################### memos ##########################
+  memos:
+    image: neosmemo/memos:stable
+    container_name: memos
+    restart: unless-stopped
+    ports:
+      - "5230:5230"
+    volumes:
+      - /home/guoyun/docker/memos:/var/opt/memos
+
+
